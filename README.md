@@ -29,6 +29,21 @@ Users will be able to:
 
 In addition, this interface will have instructions for how to navigate the various controls, as well as a README explaining the technology behind it.
 
+## Implementation Timeline
+
+### Day One: Layout and Visuals
+
+- [ ] Users can see a bubble for each state with a state abbreviation label and size based on geographic area
+- [ ] There is an input text field
+
+### Day Two: API Requests
+
+- [ ] The program responds to user input by submitting appropriate API requests
+- [ ] The data is received and stored in an organized manner
+
+### Day Three: Re-rendering Visuals
+- [ ] The visuals respond to the data once it is received
+
 
 ## Wireframes
 
