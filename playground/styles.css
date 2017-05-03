@@ -1,0 +1,11 @@
+#canvas {
+  background-color: antiquewhite;
+  border: 1px solid black;
+}
+
+div.bar {
+  display: inline-block;
+  width: 10px;
+  background-color: lightblue;
+  margin-right: 2px;
+}
