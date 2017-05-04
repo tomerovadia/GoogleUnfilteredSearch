@@ -1,16 +1,38 @@
 var googleTrends = require('google-trends-api');
 var express = require('express');
+var jbuilder = require('jbuilder');
 var app = express();
 
-app.get('/', (req, res) => {
-   console.log("Got a GET request for the homepage");
+
+const formatStateResult = (rawStateResult) => {
+  const state = rawStateResult.geoCode.slice(-2);
+
+  return {
+    'value': rawStateResult.value[0],
+    'name': state,
+  };
+};
+
+
+app.get('/interest-by-region', (req, res) => {
+  console.log(`Received interest-by-region request for keyword "${req.query.keyword}"`);
+
    googleTrends.interestByRegion({
      geo: 'US',
      resolution: 'state',
      keyword: req.query.keyword,
    }).then(
-     (results) => res.send(results),
-     (errors) => res.send(errors) )
+     
+     (results) => {
+       const formattedResults = JSON.parse(results).default.geoMapData.map( (rawStateResult) => {
+         return formatStateResult(rawStateResult);
+       });
+
+       res.send(formattedResults);
+     },
+
+     (errors) => res.send(errors)
+   )
 })
 
 
