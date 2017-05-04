@@ -62,19 +62,16 @@ const svg = d3.select('body')
   .attr('width', width)
   .attr('height', height);
 
-console.log(states);
 
-const updateArea = (newArea) => {
-
-  states.map( (state) => {
-    return Object.assign(state, {area: newArea})
+const updateDatasetArea = (data, newArea) => {
+  return states.map( (data) => {
+    return Object.assign(data, {area: newArea})
   });
+};
 
-}
+window.createCirclesSimulation = createCirclesSimulation;
+window.updateDatasetArea = updateDatasetArea;
+window.svg = svg;
+window.states = states;
 
-
-
-console.log(states);
-
-
-createCirclesSimulation(svg, states)
+createCirclesSimulation(svg, states);

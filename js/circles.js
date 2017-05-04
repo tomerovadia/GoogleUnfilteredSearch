@@ -24,21 +24,21 @@ export const createCirclesSimulation = (svg, data) => {
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
     .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
+    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ));
 
   const circleGroups = generateCircles(svg, data);
 
   const ticked = () => {
     circleGroups
     .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
-  }
+  };
 
   simulation.nodes(data)
     .on("tick", ticked);
 
   return circleGroups;
 
-}
+};
 
 
 
