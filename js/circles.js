@@ -19,6 +19,44 @@ const textSizeScale = d3.scaleLinear()
 
 
 
+
+const update = (svg, data) => {
+
+  let selection = svg.selectAll('g')
+                        .data(data)
+
+
+  let selectionEnter = selection.enter()
+
+  let selectionEnterGroups = selectionEnter.append('g');
+
+  selectionEnterGroups.append('circle')
+    .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
+    .style('fill', 'rgba(91, 137, 145, 1)')
+    .style('stroke', 'black');
+
+  selectionEnterGroups.append('text')
+    .text((d) => d.name)
+    .style('font-family', 'Arial')
+    .style('fill', 'white')
+    .attr('transform', (d) => {
+      return "translate(" + [
+        (-1 * textSizeScale(d.area)/1.5),
+        (textSizeScale(d.area)/2.4)
+      ] + ")"
+    })
+    .style('font-size', (d) => textSizeScale(d.area));
+
+
+  return svg.selectAll('g');
+
+}
+
+
+
+
+
+
 export const createCirclesSimulation = (svg, data) => {
 
   const simulation = d3.forceSimulation()
@@ -26,11 +64,11 @@ export const createCirclesSimulation = (svg, data) => {
     .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
     .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ));
 
-  const circleGroups = generateCircles(svg, data);
+  const circleGroups = update(svg, data);
 
   const ticked = () => {
     circleGroups
-    .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
+      .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
   };
 
   simulation.nodes(data)
@@ -39,34 +77,3 @@ export const createCirclesSimulation = (svg, data) => {
   return circleGroups;
 
 };
-
-
-
-
-
-const generateCircles = (svg, data) => {
-
-  const circleGroups = svg.selectAll('g')
-  .data(data)
-  .enter().append('g')
-
-  circleGroups.append('circle')
-  .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
-  .style('fill', 'rgba(91, 137, 145, 1)')
-  .style('stroke', 'black')
-
-  circleGroups.append('text')
-  .text((d) => d.name)
-  .style('font-family', 'Arial')
-  .style('fill', 'white')
-  .attr('transform', (d) => {
-    return "translate(" + [
-      (-1 * textSizeScale(d.area)/1.5),
-      (textSizeScale(d.area)/2.4)
-    ] + ")"
-  })
-  .style('font-size', (d) => textSizeScale(d.area));
-
-  return circleGroups;
-
-}
