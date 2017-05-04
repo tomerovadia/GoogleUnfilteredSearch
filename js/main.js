@@ -52,13 +52,23 @@ const states = [
   {name: "WY", lat: 42.755966, lon:	-107.302490, area: 97813.01}
 ]
 
+
 const height = 800;
 const width = 1000;
+
 
 const svg = d3.select('body')
   .append('svg')
   .attr('width', width)
   .attr('height', height);
+
+
+const simulation = d3.forceSimulation()
+    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
+    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
+    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
+
+
 
 const latScale = d3.scaleLinear()
                     .domain([61.370716, 21.094318])
@@ -77,37 +87,32 @@ const textSizeScale = d3.scaleLinear()
                         .range([8, 18])
 
 
-const simulation = d3.forceSimulation()
-    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.35))
-    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.35))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
 
-const selection = svg.selectAll('g')
-  .data(states)
-  .enter().append('g')
+const groups = svg.selectAll('g')
+.data(states)
+.enter().append('g')
 
-selection.append('circle')
-      .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
-      .style('fill', 'rgba(91, 137, 145, 1)')
-      .style('stroke', 'black')
+groups.append('circle')
+.attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
+.style('fill', 'rgba(91, 137, 145, 1)')
+.style('stroke', 'black')
 
-selection.append('text')
-      .text((d) => d.name)
-      .style('font-family', 'Arial')
-      .style('fill', 'white')
-      .attr('transform', (d) => {
-        return "translate(" + [
-          (-1 * textSizeScale(d.area)/1.5),
-          (textSizeScale(d.area)/2.4)
-        ] + ")"
-      })
-      .style('font-size', (d) => textSizeScale(d.area));
+groups.append('text')
+.text((d) => d.name)
+.style('font-family', 'Arial')
+.style('fill', 'white')
+.attr('transform', (d) => {
+  return "translate(" + [
+    (-1 * textSizeScale(d.area)/1.5),
+    (textSizeScale(d.area)/2.4)
+  ] + ")"
+})
+.style('font-size', (d) => textSizeScale(d.area));
 
 
 
-
-function ticked(){
-  selection
+const ticked = () => {
+  groups
     .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
 }
 
