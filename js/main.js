@@ -2,7 +2,7 @@ import { createCirclesSimulation } from './circles'
 
 const states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, area: 52420.07},
-  {name: "AK", lat: 61.370716, lon:	-152.404419, area: 665384.04},
+  {name: "AK", lat: 45, lon:	-140, area: 665384.04},
   {name: "AZ", lat: 33.729759, lon:	-111.431221, area: 113990.3},
   {name: "AR", lat: 34.969704, lon:	-92.373123, area: 53178.55},
   {name: "CA", lat: 36.116203, lon:	-119.681564, area: 163694.74},
@@ -12,7 +12,7 @@ const states = [
   {name: "DC", lat: 38.897438, lon:	-77.026817, area: 68.34},
   {name: "FL", lat: 27.766279, lon:	-81.686783, area: 65757.7},
   {name: "GA", lat: 33.040619, lon:	-83.643074, area: 59425.15},
-  {name: "HI", lat: 21.094318, lon:	-157.498337, area: 10931.72},
+  {name: "HI", lat: 30, lon:	-140, area: 10931.72},
   {name: "ID", lat: 44.240459, lon:	-114.478828, area: 83568.95},
   {name: "IL", lat: 40.349457, lon:	-88.986137, area: 57913.55},
   {name: "IN", lat: 39.849426, lon:	-86.258278, area: 36419.55},
@@ -61,6 +61,20 @@ const svg = d3.select('body')
   .append('svg')
   .attr('width', width)
   .attr('height', height);
+
+console.log(states);
+
+const updateArea = (newArea) => {
+
+  states.map( (state) => {
+    return Object.assign(state, {area: newArea})
+  });
+
+}
+
+
+
+console.log(states);
 
 
 createCirclesSimulation(svg, states)

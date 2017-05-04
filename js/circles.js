@@ -1,10 +1,10 @@
 const latScale = d3.scaleLinear()
-                    .domain([61.370716, 21.094318])
+                    .domain([47.528912, 27.766279])
                     .range([100, 600])
 
 const lonScale = d3.scaleLinear()
-                    .domain([-152.404419, -69.381927])
-                    .range([100, 800])
+                    .domain([-150, -69.381927])
+                    .range([50, 900])
 
 const areaScale = d3.scaleLinear()
                     .domain([68.34, 268596.46])
