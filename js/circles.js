@@ -20,20 +20,33 @@ const textSizeScale = d3.scaleLinear()
 
 
 
-const update = (svg, data) => {
+export const update = (svg, data) => {
 
   let selection = svg.selectAll('g')
                         .data(data)
 
+  // EXIT
+  // selection.exit()
+  //   .remove();
 
-  let selectionEnter = selection.enter()
+
+  // UPDATE
+  selection.selectAll('circle')
+    .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ));
+
+
+  // ENTER
+  let selectionEnter = selection.enter();
 
   let selectionEnterGroups = selectionEnter.append('g');
 
   selectionEnterGroups.append('circle')
-    .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
     .style('fill', 'rgba(91, 137, 145, 1)')
-    .style('stroke', 'black');
+    .style('stroke', 'black')
+    .attr('r', (d) => {
+      debugger
+      return Math.sqrt( (areaScale(d.area) / Math.PI) )
+    });
 
   selectionEnterGroups.append('text')
     .text((d) => d.name)
@@ -46,7 +59,6 @@ const update = (svg, data) => {
       ] + ")"
     })
     .style('font-size', (d) => textSizeScale(d.area));
-
 
   return svg.selectAll('g');
 

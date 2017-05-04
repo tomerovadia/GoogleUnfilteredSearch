@@ -1,4 +1,4 @@
-import { createCirclesSimulation } from './circles'
+import { createCirclesSimulation, update } from './circles'
 
 const states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, area: 52420.07},
@@ -73,5 +73,6 @@ window.createCirclesSimulation = createCirclesSimulation;
 window.updateDatasetArea = updateDatasetArea;
 window.svg = svg;
 window.states = states;
+window.update = update;
 
 createCirclesSimulation(svg, states);
