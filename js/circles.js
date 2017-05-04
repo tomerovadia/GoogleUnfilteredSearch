@@ -19,7 +19,7 @@ const textSizeScale = d3.scaleLinear()
 
 
 
-export const instantiateCircles = (svg, data) => {
+export const createCirclesSimulation = (svg, data) => {
 
   const simulation = d3.forceSimulation()
   .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))

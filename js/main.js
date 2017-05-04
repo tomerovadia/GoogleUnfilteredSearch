@@ -1,4 +1,4 @@
-import { instantiateCircles } from './circles'
+import { createCirclesSimulation } from './circles'
 
 const states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, area: 52420.07},
@@ -63,4 +63,4 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-instantiateCircles(svg, states)
+createCirclesSimulation(svg, states)
