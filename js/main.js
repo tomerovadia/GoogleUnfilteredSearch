@@ -1,5 +1,4 @@
 import { createCirclesSimulation, update } from './circles'
-import { fetchInterestByKeyword } from './api_util'
 
 const states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, area: 52420.07},
@@ -75,6 +74,5 @@ const svg = d3.select('body')
 // window.svg = svg;
 // window.states = states;
 // window.update = update;
-window.fetchInterestByKeyword = fetchInterestByKeyword;
 
 createCirclesSimulation(svg, states);
