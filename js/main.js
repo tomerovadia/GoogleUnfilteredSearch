@@ -1,3 +1,5 @@
+import { instantiateCircles } from './circles'
+
 const states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, area: 52420.07},
   {name: "AK", lat: 61.370716, lon:	-152.404419, area: 665384.04},
@@ -52,10 +54,8 @@ const states = [
   {name: "WY", lat: 42.755966, lon:	-107.302490, area: 97813.01}
 ]
 
-
 const height = 800;
 const width = 1000;
-
 
 const svg = d3.select('body')
   .append('svg')
@@ -63,58 +63,4 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-const simulation = d3.forceSimulation()
-    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
-    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
-
-
-
-const latScale = d3.scaleLinear()
-                    .domain([61.370716, 21.094318])
-                    .range([100, 600])
-
-const lonScale = d3.scaleLinear()
-                    .domain([-152.404419, -69.381927])
-                    .range([100, 800])
-
-const areaScale = d3.scaleLinear()
-                    .domain([68.34, 268596.46])
-                    .range([50, 10000])
-
-const textSizeScale = d3.scaleLinear()
-                        .domain([68.34, 268596.46])
-                        .range([8, 18])
-
-
-
-const groups = svg.selectAll('g')
-.data(states)
-.enter().append('g')
-
-groups.append('circle')
-.attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
-.style('fill', 'rgba(91, 137, 145, 1)')
-.style('stroke', 'black')
-
-groups.append('text')
-.text((d) => d.name)
-.style('font-family', 'Arial')
-.style('fill', 'white')
-.attr('transform', (d) => {
-  return "translate(" + [
-    (-1 * textSizeScale(d.area)/1.5),
-    (textSizeScale(d.area)/2.4)
-  ] + ")"
-})
-.style('font-size', (d) => textSizeScale(d.area));
-
-
-
-const ticked = () => {
-  groups
-    .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
-}
-
-simulation.nodes(states)
-    .on("tick", ticked);
+instantiateCircles(svg, states)
