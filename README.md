@@ -47,7 +47,7 @@ In addition, this interface will have instructions for how to navigate the vario
 
 ## Wireframes
 
-![wireframe](google_trends_explorer_mock.png)
+![wireframe](docs/google_trends_explorer_mock.png)
 
 
 ## Bonus Features
