@@ -68,7 +68,7 @@ const svg = d3.select("body")
 const simulation = d3.forceSimulation()
   .force('x', d3.forceX(width / 2).strength(0.05))
   .force('y', d3.forceY(height / 2).strength(0.05))
-  .force('collide', d3.forceCollide(2))
+  .force('collide', d3.forceCollide(11))
 
 
 const selection = svg.selectAll("circle")
