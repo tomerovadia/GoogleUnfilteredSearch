@@ -19,11 +19,10 @@ const textSizeScale = d3.scaleLinear()
 
 
 
-
 export const update = (svg, data) => {
 
   let selection = svg.selectAll('g')
-                        .data(data)
+                     .data(data)
 
   // EXIT
   // selection.exit()
@@ -32,7 +31,7 @@ export const update = (svg, data) => {
 
   // UPDATE
   selection.selectAll('circle')
-    .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ));
+    .attr('r', (d) => Math.sqrt( (areaScale(d.value) / Math.PI) ));
 
 
   // ENTER
@@ -45,7 +44,7 @@ export const update = (svg, data) => {
     .style('stroke', 'black')
     .attr('r', (d) => {
       debugger
-      return Math.sqrt( (areaScale(d.area) / Math.PI) )
+      return Math.sqrt( (areaScale(d.value) / Math.PI) )
     });
 
   selectionEnterGroups.append('text')
@@ -54,17 +53,15 @@ export const update = (svg, data) => {
     .style('fill', 'white')
     .attr('transform', (d) => {
       return "translate(" + [
-        (-1 * textSizeScale(d.area)/1.5),
-        (textSizeScale(d.area)/2.4)
+        (-1 * textSizeScale(d.value)/1.5),
+        (textSizeScale(d.value)/2.4)
       ] + ")"
     })
-    .style('font-size', (d) => textSizeScale(d.area));
+    .style('font-size', (d) => textSizeScale(d.value));
 
   return svg.selectAll('g');
 
 }
-
-
 
 
 
@@ -74,7 +71,7 @@ export const createCirclesSimulation = (svg, data) => {
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
     .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ));
+    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.value) / Math.PI) ) + 2 ));
 
   const circleGroups = update(svg, data);
 
