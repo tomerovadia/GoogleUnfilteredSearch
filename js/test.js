@@ -52,55 +52,38 @@ const states = [
   {name: "WY", lat: 42.755966, lon:	-107.302490, area: 97813.01}
 ]
 
-const height = 800;
-const width = 1000;
 
-const svg = d3.select('body')
-  .append('svg')
-  .attr('width', width)
-  .attr('height', height);
+const width = 500;
+const height = 500;
 
-const latScale = d3.scaleLinear()
-                      .domain([61.370716, 21.094318])
-                      .range([100, 600])
 
-const lonScale = d3.scaleLinear()
-                      .domain([-152.404419, -69.381927])
-                      .range([100, 800])
-
-const areaScale = d3.scaleLinear()
-                      .domain([68.34, 268596.46])
-                      .range([8, 10000])
+const svg = d3.select("body")
+  .append("svg")
+  .attr("height", height)
+  .attr("width", width)
+  // .append("g")
+  // .attr("transform", "translate(0,0)")
 
 
 const simulation = d3.forceSimulation()
-    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.15))
-    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.15))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) )))
+  .force('x', d3.forceX(width / 2).strength(0.05))
+  .force('y', d3.forceY(height / 2).strength(0.05))
+  .force('collide', d3.forceCollide(2))
 
-const selection = svg.selectAll('g')
+
+const selection = svg.selectAll("circle")
   .data(states)
-  // .enter().append('g')
-  //   .attr('transform', (d) => {
-  //     return 'translate(' + lonScale(d.lon) + ',' + latScale(d.lat) + ')';
-  //   })
-    .enter().append('circle')
-      .attr('r', (d) => Math.sqrt( (areaScale(d.area) / Math.PI) ))
-      .style('fill', 'white')
-      .style('stroke', 'black')
+  .enter().append("g")
+  .attr("class", "artist")
+  .append('circle')
+  .attr("r", 10)
+  .attr("fill", "lightblue")
 
-      // .append('text')
-      //   .attr('x', -8.5 )
-      //   .attr('y', 5.5 )
-      //   .text((d) => d.name)
-      //   .style('font-family', 'Arial');
-
-
-function ticked(){
+const ticked = () => {
   selection
-    .attr('cx', (d) => d.x)
-    .attr('cy', (d) => d.y)
+    .attr("cx", (d) => d.x)
+    .attr("cy", (d) => d.y)
 }
 
 simulation.nodes(states)
-    .on("tick", ticked);
+  .on("tick", ticked)
