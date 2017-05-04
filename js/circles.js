@@ -22,9 +22,9 @@ const textSizeScale = d3.scaleLinear()
 export const createCirclesSimulation = (svg, data) => {
 
   const simulation = d3.forceSimulation()
-  .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
-  .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
-  .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
+    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
+    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
+    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.area) / Math.PI) ) + 2 ))
 
   const circleGroups = generateCircles(svg, data);
 
@@ -44,7 +44,7 @@ export const createCirclesSimulation = (svg, data) => {
 
 
 
-export const generateCircles = (svg, data) => {
+const generateCircles = (svg, data) => {
 
   const circleGroups = svg.selectAll('g')
   .data(data)
