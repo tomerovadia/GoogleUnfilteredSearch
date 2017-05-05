@@ -21,7 +21,7 @@ let states = {
   IN: {lat: 39.849426, lon:	-86.258278, value: 36419.55},
   IA: {lat: 42.011539, lon:	-93.210526, value: 56272.81},
   KS: {lat: 38.526600, lon:	-96.726486, value: 82278.36},
-  KE: {lat: 37.668140, lon:	-84.670067, value: 40407.8},
+  KY: {lat: 37.668140, lon:	-84.670067, value: 40407.8},
   LA: {lat: 31.169546, lon:	-91.867805, value: 52378.13},
   ME: {lat: 44.693947, lon: -69.381927, value: 35379.74},
   MD: {lat: 39.063946, lon: -76.802101, value: 12405.93},
@@ -31,7 +31,7 @@ let states = {
   MS: {lat: 32.741646, lon: -89.678696, value: 48431.78},
   MO: {lat: 38.456085, lon: -92.288368, value: 69706.99},
   MT: {lat: 46.921925, lon: -110.454353, value: 147039.71},
-  NB: {lat: 41.125370, lon: -98.268082, value: 77347.81},
+  NE: {lat: 41.125370, lon: -98.268082, value: 77347.81},
   NV: {lat: 38.313515, lon: -117.055374, value: 110571.82},
   NH: {lat: 43.452492, lon: -71.563896, value: 9349.16},
   NJ: {lat: 40.298904, lon: -74.521011, value: 8722.58},
@@ -66,15 +66,70 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-const updateDataset = (results) => {
-  console.log(results);
+const sampleResults = {
+  DC: 100,
+  MD: 74,
+  NJ: 67,
+  NC: 66,
+  GA: 65,
+  NY: 65,
+  FL: 64,
+  AL: 64,
+  PA: 64,
+  IL: 64,
+  MA: 63,
+  MO: 63,
+  OH: 63,
+  CT: 63,
+  CO: 62,
+  MS: 62,
+  LA: 62,
+  NH: 61,
+  DE: 61,
+  AZ: 61,
+  WA: 60,
+  MI: 60,
+  TN: 60,
+  IN: 60,
+  SC: 59,
+  VA: 59,
+  KY: 59,
+  RI: 59,
+  NV: 59,
+  NM: 58,
+  ME: 58,
+  WI: 58,
+  VT: 58,
+  OK: 57,
+  CA: 57,
+  AR: 57,
+  AK: 57,
+  IA: 57,
+  WY: 57,
+  WV: 56,
+  MT: 56,
+  TX: 56,
+  MN: 55,
+  HI: 54,
+  ID: 54,
+  NE: 53,
+  SD: 52,
+  UT: 52,
+  ND: 51,
+  KS: 50,
+  OR: 40
+}
 
-  states = states.map((state) => {
-    console.log(state);
-    console.log(state.name)
-    state.value = results[state.name].value;
-  });
+
+const updateDataset = (results) => {
+  for (const key in results){
+    console.log(key);
+    states[key].value = results[key];
+  };
 };
+
+
+
 
 const objectToArray = (object) => {
   return Object.keys(object).map((key) => {
@@ -93,4 +148,8 @@ CircleFunctions.createCirclesSimulation(svg, objectToArray(states));
 
 
 
-ApiUtil.fetchInterestByRegion('technology').then((results) => updateDataset(results))
+// ApiUtil.fetchInterestByRegion('technology').then((results) => updateDataset(results))
+
+
+updateDataset(sampleResults);
+setTimeout(() => CircleFunctions.createCirclesSimulation(svg, objectToArray(states)), 3000);

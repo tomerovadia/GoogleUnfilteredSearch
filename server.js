@@ -4,15 +4,27 @@ var jbuilder = require('jbuilder');
 var app = express();
 
 
-// Turn raw API response for a single state into the object format needed
-const formatStateResult = (rawStateResult) => {
-  const state = rawStateResult.geoCode.slice(-2);
+// Turn raw API response for A SINGLE state into the object format needed
+// const formatStateResult = (rawStateResult) => {
+//
+//
+//   return {[state]: };
+// };
 
-  return {
-    'value': rawStateResult.value[0],
-    'name': state,
-  };
-};
+
+// Turn raw API response for ALL states into the object format needed
+const formatStateResults = (rawStateResults) => {
+  const formattedResults = {};
+  const parsedStateResults = JSON.parse(rawStateResults).default.geoMapData;
+
+  for(let i=0; i < parsedStateResults.length; i++){
+    const rawStateResult = parsedStateResults[i];
+    const state = rawStateResult.geoCode.slice(-2);
+    formattedResults[state] = rawStateResult.value[0];
+  }
+
+  return formattedResults;
+}
 
 
 
@@ -25,16 +37,8 @@ app.get('/interest-by-region', (req, res) => {
      resolution: 'state',
      keyword: req.query.keyword,
    }).then(
-
-     (results) => {
-       const formattedResults = JSON.parse(results).default.geoMapData.map( (rawStateResult) => {
-         return formatStateResult(rawStateResult);
-       });
-
-       res.send(formattedResults);
-     },
-
-     (errors) => res.send(errors)
+        (results) => res.send(formatStateResults(results)),
+        (errors) => res.send(errors)
    )
 })
 

@@ -8,13 +8,24 @@ const lonScale = d3.scaleLinear()
                     .domain([-150, -69.381927])
                     .range([50, 900])
 
-const areaScale = d3.scaleLinear()
-                    .domain([68.34, 268596.46])
-                    .range([50, 10000])
 
-const textSizeScale = d3.scaleLinear()
-                        .domain([68.34, 268596.46])
-                        .range([8, 18])
+const getMinMaxValues = (data) => {
+
+  const values = Object.keys(data).map((key) => data[key].value);
+
+  const min = Math.min.apply(null, values);
+  const max = Math.max.apply(null, values);
+
+  return [min, max];
+}
+
+
+const createScale = (data, range) => {
+  return d3.scaleLinear()
+          .domain(getMinMaxValues(data))
+          .range(range)
+}
+
 
 
 
@@ -22,6 +33,9 @@ const textSizeScale = d3.scaleLinear()
 
 
 exports.update = (svg, data) => {
+
+  const areaScale = createScale(data, [50, 10000]);
+  const textSizeScale = createScale(data, [8, 18]);
 
   let selection = svg.selectAll('g')
                      .data(data)
@@ -65,12 +79,17 @@ exports.update = (svg, data) => {
 
 
 
+
+
+
 exports.createCirclesSimulation = (svg, data) => {
+
+  const areaScale = createScale(data, [50, 10000]);
 
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
     .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
-    .force('collide', d3.forceCollide((d) => Math.sqrt( (areaScale(d.value) / Math.PI) ) + 2 ));
+    .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
 
   const circleGroups = update(svg, data);
 
