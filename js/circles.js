@@ -35,12 +35,8 @@ const updateCircles = (selection, scales) => {
     .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
 
   selection.selectAll('text')
-    .attr('transform', (d) => {
-      return "translate(" + [
-        (-1 * scales.textSizeScale(d.value)/1.5),
-        (scales.textSizeScale(d.value)/2.4)
-      ] + ")"
-    })
+    .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
+    .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
     .style('font-size', (d) => scales.textSizeScale(d.value));
 };
 
@@ -58,12 +54,8 @@ const enterCircles = (selection, scales) => {
     .text((d) => d.name)
     .style('font-family', 'Arial')
     .style('fill', 'white')
-    .attr('transform', (d) => {
-      return "translate(" + [
-        (-1 * scales.textSizeScale(d.value)/1.5),
-        (scales.textSizeScale(d.value)/2.4)
-      ] + ")"
-    })
+    .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
+    .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
     .style('font-size', (d) => scales.textSizeScale(d.value));
 };
 
