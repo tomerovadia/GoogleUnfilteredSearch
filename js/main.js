@@ -139,10 +139,10 @@ const objectToArray = (object) => {
 
 
 
-window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
-window.svg = svg;
-window.states = states;
-window.update = CircleFunctions.update;
+// window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
+// window.svg = svg;
+// window.states = states;
+// window.update = CircleFunctions.update;
 
 CircleFunctions.createCirclesSimulation(svg, objectToArray(states));
 

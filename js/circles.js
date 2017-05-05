@@ -77,7 +77,7 @@ const exitCircles = (selection) => {
 
 
 
-exports.update = (svg, data) => {
+const renderCircles = (svg, data) => {
 
   const scales = {
     areaScale: createScale(data, [50, 10000]),
@@ -110,7 +110,7 @@ exports.createCirclesSimulation = (svg, data) => {
     .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
     .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
 
-  const circleGroups = update(svg, data);
+  const circleGroups = renderCircles(svg, data);
 
   const ticked = () => {
     circleGroups
