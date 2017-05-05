@@ -30,44 +30,29 @@ const createScale = (data, range) => {
 
 
 
-
-
-exports.update = (svg, data) => {
-
-  const areaScale = createScale(data, [50, 10000]);
-  const textSizeScale = createScale(data, [8, 18]);
-
-  let selection = svg.selectAll('g')
-                     .data(data)
-
-  // EXIT
-  // selection.exit()
-  //   .remove();
-
-
-  // UPDATE
+const updateCircles = (selection, scales) => {
   selection.selectAll('circle')
-    .attr('r', (d) => Math.sqrt( (areaScale(d.value) / Math.PI) ));
+    .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
 
   selection.selectAll('text')
     .attr('transform', (d) => {
       return "translate(" + [
-        (-1 * textSizeScale(d.value)/1.5),
-        (textSizeScale(d.value)/2.4)
+        (-1 * scales.textSizeScale(d.value)/1.5),
+        (scales.textSizeScale(d.value)/2.4)
       ] + ")"
     })
-    .style('font-size', (d) => textSizeScale(d.value));
+    .style('font-size', (d) => scales.textSizeScale(d.value));
+};
 
 
-  // ENTER
-  let selectionEnter = selection.enter();
 
-  let selectionEnterGroups = selectionEnter.append('g');
+const enterCircles = (selection, scales) => {
+  let selectionEnterGroups = selection.append('g');
 
   selectionEnterGroups.append('circle')
     .style('fill', 'rgba(91, 137, 145, 1)')
     .style('stroke', 'black')
-    .attr('r', (d) => Math.sqrt( (areaScale(d.value) / Math.PI) ));
+    .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
 
   selectionEnterGroups.append('text')
     .text((d) => d.name)
@@ -75,11 +60,36 @@ exports.update = (svg, data) => {
     .style('fill', 'white')
     .attr('transform', (d) => {
       return "translate(" + [
-        (-1 * textSizeScale(d.value)/1.5),
-        (textSizeScale(d.value)/2.4)
+        (-1 * scales.textSizeScale(d.value)/1.5),
+        (scales.textSizeScale(d.value)/2.4)
       ] + ")"
     })
-    .style('font-size', (d) => textSizeScale(d.value));
+    .style('font-size', (d) => scales.textSizeScale(d.value));
+};
+
+
+
+const exitCircles = (selection) => {
+  selection.remove();
+};
+
+
+
+
+
+exports.update = (svg, data) => {
+
+  const scales = {
+    areaScale: createScale(data, [50, 10000]),
+    textSizeScale: createScale(data, [8, 18]),
+  }
+
+  let selection = svg.selectAll('g')
+                     .data(data)
+
+  exitCircles(selection.exit(), scales);
+  updateCircles(selection, scales);
+  enterCircles(selection.enter(), scales);
 
   return svg.selectAll('g');
 
