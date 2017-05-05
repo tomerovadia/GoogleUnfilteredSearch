@@ -72,9 +72,15 @@ const svg = d3.select('body')
 // };
 
 window.createCirclesSimulation = createCirclesSimulation;
-window.updateDatasetArea = updateDatasetArea;
+// window.updateDatasetArea = updateDatasetArea;
 window.svg = svg;
 window.states = states;
 window.update = update;
 
 createCirclesSimulation(svg, states);
+
+
+// $.ajax({
+//   method: 'get',
+//   url:
+// })

@@ -42,10 +42,7 @@ export const update = (svg, data) => {
   selectionEnterGroups.append('circle')
     .style('fill', 'rgba(91, 137, 145, 1)')
     .style('stroke', 'black')
-    .attr('r', (d) => {
-      debugger
-      return Math.sqrt( (areaScale(d.value) / Math.PI) )
-    });
+    .attr('r', (d) => Math.sqrt( (areaScale(d.value) / Math.PI) ));
 
   selectionEnterGroups.append('text')
     .text((d) => d.name)
