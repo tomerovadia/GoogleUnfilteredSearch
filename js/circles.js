@@ -49,6 +49,15 @@ exports.update = (svg, data) => {
   selection.selectAll('circle')
     .attr('r', (d) => Math.sqrt( (areaScale(d.value) / Math.PI) ));
 
+  selection.selectAll('text')
+    .attr('transform', (d) => {
+      return "translate(" + [
+        (-1 * textSizeScale(d.value)/1.5),
+        (textSizeScale(d.value)/2.4)
+      ] + ")"
+    })
+    .style('font-size', (d) => textSizeScale(d.value));
+
 
   // ENTER
   let selectionEnter = selection.enter();

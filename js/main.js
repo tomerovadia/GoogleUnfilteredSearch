@@ -5,7 +5,7 @@ const d3 = require('d3');
 
 let states = {
   AL: {lat: 32.806671, lon:	-86.791130, value: 52420.07},
-  AK: {lat: 45, lon:	-140, value: 665384.04},
+  AK: {lat: 45, lon:	-140, value: 268596.46},
   AZ: {lat: 33.729759, lon:	-111.431221, value: 113990.3},
   AR: {lat: 34.969704, lon:	-92.373123, value: 53178.55},
   CA: {lat: 36.116203, lon:	-119.681564, value: 163694.74},
