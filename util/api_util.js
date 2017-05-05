@@ -1,9 +1,3 @@
-
-
-
-
-
-
 exports.fetchInterestByRegion = (keyword) => {
 
   return $.ajax({

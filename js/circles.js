@@ -72,7 +72,7 @@ const exitCircles = (selection) => {
 const renderCircles = (svg, data) => {
 
   const scales = {
-    areaScale: createScale(data, [50, 10000]),
+    areaScale: createScale(data, [150, 10000]),
     textSizeScale: createScale(data, [8, 18]),
   }
 
@@ -95,7 +95,7 @@ const renderCircles = (svg, data) => {
 
 exports.createCirclesSimulation = (svg, data) => {
 
-  const areaScale = createScale(data, [50, 10000]);
+  const areaScale = createScale(data, [150, 10000]);
 
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
