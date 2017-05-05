@@ -41,9 +41,9 @@ app.get('/interest-by-region', (req, res) => {
 
 
 // Make the public folder accessible
-
 app.use(express.static('public'));
 
+// Route for the root (pun intended)
 app.get('/index.html', function (req, res) {
   console.log('Serving index.html');
   res.sendFile( __dirname + "/" + "index.html" );

@@ -1,6 +1,9 @@
-import { createCirclesSimulation, update } from './circles'
+const CircleFunctions = require('./circles');
+const ApiUtil = require('../util/api_util');
+const d3 = require('d3');
 
-const states = [
+
+let states = [
   {name: "AL", lat: 32.806671, lon:	-86.791130, value: 52420.07},
   {name: "AK", lat: 45, lon:	-140, value: 665384.04},
   {name: "AZ", lat: 33.729759, lon:	-111.431221, value: 113990.3},
@@ -63,24 +66,20 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
+const updateDataset = (results) => {
+  debugger
+};
 
 
-// const updateDatasetArea = (data, newArea) => {
-//   return states.map( (data) => {
-//     return Object.assign(data, {area: newArea})
-//   });
-// };
 
-window.createCirclesSimulation = createCirclesSimulation;
-// window.updateDatasetArea = updateDatasetArea;
+
+window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
 window.svg = svg;
 window.states = states;
-window.update = update;
+window.update = CircleFunctions.update;
 
-createCirclesSimulation(svg, states);
+CircleFunctions.createCirclesSimulation(svg, states);
 
 
-// $.ajax({
-//   method: 'get',
-//   url:
-// })
+
+ApiUtil.fetchInterestByRegion('technology').then((results) => updateDataset(results))

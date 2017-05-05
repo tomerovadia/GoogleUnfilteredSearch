@@ -1,3 +1,5 @@
+const d3 = require('d3');
+
 const latScale = d3.scaleLinear()
                     .domain([47.528912, 27.766279])
                     .range([100, 600])
@@ -19,7 +21,7 @@ const textSizeScale = d3.scaleLinear()
 
 
 
-export const update = (svg, data) => {
+exports.update = (svg, data) => {
 
   let selection = svg.selectAll('g')
                      .data(data)
@@ -63,7 +65,7 @@ export const update = (svg, data) => {
 
 
 
-export const createCirclesSimulation = (svg, data) => {
+exports.createCirclesSimulation = (svg, data) => {
 
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
