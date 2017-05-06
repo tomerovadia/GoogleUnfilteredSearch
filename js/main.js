@@ -66,68 +66,12 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-// const sampleResults = {
-//   DC: 100,
-//   MD: 74,
-//   NJ: 67,
-//   NC: 66,
-//   GA: 65,
-//   NY: 65,
-//   FL: 64,
-//   AL: 64,
-//   PA: 64,
-//   IL: 64,
-//   MA: 63,
-//   MO: 63,
-//   OH: 63,
-//   CT: 63,
-//   CO: 62,
-//   MS: 62,
-//   LA: 62,
-//   NH: 61,
-//   DE: 61,
-//   AZ: 61,
-//   WA: 60,
-//   MI: 60,
-//   TN: 60,
-//   IN: 60,
-//   SC: 59,
-//   VA: 59,
-//   KY: 59,
-//   RI: 59,
-//   NV: 59,
-//   NM: 58,
-//   ME: 58,
-//   WI: 58,
-//   VT: 58,
-//   OK: 57,
-//   CA: 57,
-//   AR: 57,
-//   AK: 57,
-//   IA: 57,
-//   WY: 57,
-//   WV: 56,
-//   MT: 56,
-//   TX: 56,
-//   MN: 55,
-//   HI: 54,
-//   ID: 54,
-//   NE: 53,
-//   SD: 52,
-//   UT: 52,
-//   ND: 51,
-//   KS: 50,
-//   OR: 40
-// }
-
 
 const updateDataset = (results) => {
   for (const key in results){
     states[key].value = results[key];
   };
 };
-
-
 
 
 const objectToArray = (object) => {
