@@ -1,18 +1,26 @@
 const d3 = require('d3');
 
+const horizontalRange = [150, 1100];
+const verticalRange = [200, 800];
+const bubbleAreaRange = [150, 10000];
+const textSizeRange = [8, 18];
+
+
+
 const latScale = d3.scaleLinear()
                     .domain([47.528912, 27.766279])
-                    .range([75, 525])
-
+                    .range(verticalRange)
 
 
 const lonScale = d3.scaleLinear()
                     .domain([-150, -69.381927])
-                    .range([150, 1100])
+                    .range(horizontalRange)
 
-const getMinMaxValues = (data) => {
 
-  const values = Object.keys(data).map((key) => data[key].value);
+
+const getMinMax = (data, factor) => {
+
+  const values = Object.keys(data).map((key) => data[key][factor]);
 
   const min = Math.min.apply(null, values);
   const max = Math.max.apply(null, values);
@@ -21,9 +29,11 @@ const getMinMaxValues = (data) => {
 }
 
 
-const createScale = (data, range) => {
+
+
+const createScale = (data, factor, range) => {
   return d3.scaleLinear()
-          .domain(getMinMaxValues(data))
+          .domain(getMinMax(data, factor))
           .range(range)
 }
 
@@ -74,8 +84,8 @@ const exitCircles = (selection) => {
 const renderCircles = (svg, data) => {
 
   const scales = {
-    areaScale: createScale(data, [150, 10000]),
-    textSizeScale: createScale(data, [8, 18]),
+    areaScale: createScale(data, 'value', bubbleAreaRange),
+    textSizeScale: createScale(data, 'value', textSizeRange),
   }
 
   let selection = svg.selectAll('g')
@@ -93,18 +103,33 @@ const renderCircles = (svg, data) => {
 
 
 
+exports.createCirclesSimulation = (svg, data, factors) => {
 
 
-exports.createCirclesSimulation = (svg, data) => {
-
-  const areaScale = createScale(data, [150, 10000]);
+  const areaScale = createScale(data, 'value', bubbleAreaRange);
 
   const simulation = d3.forceSimulation()
-    .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.30))
-    .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.30))
+
+
+  if(factors.position == 'geography'){
+    simulation
+      .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.35))
+      .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.35));
+
+  } else if(factors.position == 'president2016') {
+
+    const groupScale = createScale(data, 'president2016', horizontalRange);
+
+    debugger
+
+    simulation
+      .force('x', d3.forceX((d) => groupScale(d.president2016)).strength(0.35))
+      .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.35));
+  }
+
+  simulation
     .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
 
-  const circleGroups = renderCircles(svg, data);
 
   const ticked = () => {
     circleGroups
@@ -113,6 +138,8 @@ exports.createCirclesSimulation = (svg, data) => {
 
   simulation.nodes(data)
     .on("tick", ticked);
+
+  const circleGroups = renderCircles(svg, data);
 
   return circleGroups;
 
