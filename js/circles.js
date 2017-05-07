@@ -103,8 +103,8 @@ const renderCircles = (svg, data) => {
 
 const applyXYForces = (simulation, xScale, yScale, xFactor, yFactor) => {
   simulation
-    .force('x', d3.forceX((d) => xScale(d[xFactor])).strength(0.35))
-    .force('y', d3.forceY((d) => yScale(d[yFactor])).strength(0.35));
+    .force('x', d3.forceX((d) => xScale(d[xFactor])).strength(0.5))
+    .force('y', d3.forceY((d) => yScale(d[yFactor])).strength(0.5));
 }
 
 
@@ -126,7 +126,6 @@ exports.createCirclesSimulation = (svg, data, factors) => {
 
   simulation
     .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
-
 
   const ticked = () => {
     circleGroups

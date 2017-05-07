@@ -100,15 +100,22 @@ const fetchResultsAndUpdateDatabase = (keyword) => {
       updateDataset(results);
       CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
   });
-}
+};
 
 
-const form = d3.select('#query-form')
+const form = d3.select('#query-form');
 
 form.on('submit', function() {
   d3.event.preventDefault();
   var keyword = this.querySelector('#keyword-input').value;
   d3.select('#keyword-input').value
   fetchResultsAndUpdateDatabase(keyword);
-  this.querySelector('#keyword-input').value = '';
+  this.querySelector('#keyword-input').value = ''; // clear input
+});
+
+const positionInputs = d3.selectAll('.position-input');
+
+positionInputs.on('change', function() {
+  factors.position = this.value;
+  CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 });
