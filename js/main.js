@@ -1,4 +1,5 @@
 const CircleFunctions = require('./circles');
+const RelatedQueriesFunctions = require('./related_queries');
 const ApiUtil = require('../util/api_util');
 const d3 = require('d3');
 
@@ -57,6 +58,101 @@ let states = {
   WY: {lat: 42.755966, lon:	-107.302490, value: 97813.01, president2016: 2},
 }
 
+const sampleRelatedQueries = [
+[
+"obama grandfather",
+1150
+],
+[
+"malia obama arrested in chicago",
+1100
+],
+[
+"who did obama support in french election",
+850
+],
+[
+"2008 obama catchword",
+400
+],
+[
+"obama net worth 2017",
+300
+],
+[
+"emmanuel macron",
+200
+],
+[
+"obama france election",
+200
+],
+[
+"obama daughter arrested",
+190
+],
+[
+"obama supports macron",
+180
+],
+[
+"obama mother",
+170
+],
+[
+"is michelle obama pregnant",
+170
+],
+[
+"obama french",
+160
+],
+[
+"how old was obama when elected",
+160
+],
+[
+"alex mcnear",
+160
+],
+[
+"emmanuel macron obama",
+150
+],
+[
+"barack obama dad",
+140
+],
+[
+"obama boston",
+140
+],
+[
+"obama french election",
+130
+],
+[
+"macron",
+120
+],
+[
+"sheila jager",
+120
+],
+[
+"sheila jager obama",
+100
+],
+[
+"jon favreau obama",
+90
+],
+[
+"obama endorses macron",
+80
+]
+]
+
 const height = 1000;
 const width = 1300;
 
@@ -89,12 +185,17 @@ const objectToArray = (object) => {
 
 
 
+
+
+RelatedQueriesFunctions.renderRelatedQueries(sampleRelatedQueries);
+
+
 const factors = {position: 'geography'};
 
 CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 
 
-const fetchResultsAndUpdateDatabase = (keyword) => {
+const fetchNewDataAndUpdate = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
       console.log(results);
       updateDataset(results);
@@ -113,7 +214,7 @@ form.on('submit', function() {
   d3.event.preventDefault();
   var keyword = this.querySelector('#keyword-input').value;
   d3.select('#keyword-input').value
-  fetchResultsAndUpdateDatabase(keyword);
+  fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
 });
 

@@ -61,3 +61,12 @@ div, img, span, label, input, fieldset {
   margin: 0 10px;
   font-size: 18px;
 }
+
+#related-queries-div span {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px 10px;
+  margin: 5px 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
