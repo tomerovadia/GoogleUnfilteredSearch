@@ -85,10 +85,13 @@ const objectToArray = (object) => {
 // window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
 // window.svg = svg;
 // window.states = states;
-// window.update = CircleFunctions.update;
+window.fetchTopQueriesByState = ApiUtil.fetchTopQueriesByState;
+
+
+
+
 
 CircleFunctions.createCirclesSimulation(svg, objectToArray(states));
-
 
 const fetchResultsAndUpdateDatabase = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {

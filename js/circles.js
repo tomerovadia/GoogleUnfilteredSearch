@@ -32,6 +32,7 @@ const createScale = (data, range) => {
 
 const updateCircles = (selection, scales) => {
   selection.selectAll('circle')
+    .transition()
     .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
 
   selection.selectAll('text')
