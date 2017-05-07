@@ -2,6 +2,7 @@ div, img, span, label, input, fieldset {
   box-sizing: border-box;
   font-family: Arial;
   border: none;
+  padding: 0;
 }
 
 #selection-panel {
