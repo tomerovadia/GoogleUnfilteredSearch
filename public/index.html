@@ -3,17 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>Google Trends Explorer</title>
-
+    <link rel="stylesheet" href="./main.css">
   </head>
   <body>
 
+    <div id='selection-panel'>
 
-    <form id="query-form" action="index.html" method="post">
-      <label for="keyword-input">Keyword: </label>
-      <input id='keyword-input' type="text"></input>
+      <div id='header'>
+        <img id='google-logo' src='./google_logo.png'>
+        <span class='header-text'>Trends Explorer</span>
+      </div>
+      <form id="query-form" action="index.html" method="post">
+        <label for="keyword-input">Keyword:
+          <input id='keyword-input' type="text"></input>
+        </label>
 
-      <input type="submit">
-    </form>
+        <input type="submit" value='Go!'>
+      </form>
+    </div>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

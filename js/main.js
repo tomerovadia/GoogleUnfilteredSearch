@@ -57,8 +57,8 @@ let states = {
   WY: {lat: 42.755966, lon:	-107.302490, value: 97813.01},
 }
 
-const height = 800;
-const width = 1200;
+const height = 600;
+const width = 1300;
 
 const svg = d3.select('body')
   .append('svg')

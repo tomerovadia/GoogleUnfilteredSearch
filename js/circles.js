@@ -2,12 +2,13 @@ const d3 = require('d3');
 
 const latScale = d3.scaleLinear()
                     .domain([47.528912, 27.766279])
-                    .range([100, 600])
+                    .range([75, 525])
+
+
 
 const lonScale = d3.scaleLinear()
                     .domain([-150, -69.381927])
-                    .range([50, 900])
-
+                    .range([150, 1100])
 
 const getMinMaxValues = (data) => {
 

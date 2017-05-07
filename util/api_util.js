@@ -1,6 +1,3 @@
-const request = require("tinyreq");
-
-
 
 
 exports.fetchInterestByRegion = (keyword) => {
@@ -11,12 +8,3 @@ exports.fetchInterestByRegion = (keyword) => {
   });
 
 };
-
-
-
-
-exports.fetchTopQueriesByState = () => {
-  request("http://ionicabizau.net/", function (err, body) {
-    console.log(err || body); // Print out the HTML
-  });
-}

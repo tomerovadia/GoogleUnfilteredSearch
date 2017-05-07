@@ -1,0 +1,59 @@
+div, img, span, label, input {
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+#selection-panel {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#google-logo {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header-text {
+  font-size: 45px;
+  position: relative;
+  top: -3px;
+}
+
+#query-form {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#query-form label {
+  font-size: 18px;
+}
+
+#query-form input[type=text] {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background: none;
+  -webkit-appearance: none;
+  height: 35px;
+  width: 210px;
+  font-size: 18px;
+}
+
+#query-form input[type=submit] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  background: none;
+  box-shadow: none;
+  border-radius: 1px;
+  margin: 0 10px;
+  font-size: 18px;
+}
