@@ -14,9 +14,15 @@
         <span class='header-text'>Trends Explorer</span>
       </div>
       <form id="query-form" action="index.html" method="post">
+
         <label for="keyword-input">Keyword:
           <input id='keyword-input' type="text"></input>
         </label>
+
+        <fieldset id='position-by'>Position by:
+          <input name='position-by' type='radio' value='geography' checked>Geography</input>
+          <input name='position-by' type='radio' value='president2016'>2016 Presidential Outcome</input>
+        </fieldset>
 
         <input type="submit" value='Go!'>
       </form>

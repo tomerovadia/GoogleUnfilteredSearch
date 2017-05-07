@@ -101,6 +101,12 @@ const renderCircles = (svg, data) => {
 
 
 
+const applyXYForces = (simulation, xScale, yScale, xFactor, yFactor) => {
+  simulation
+    .force('x', d3.forceX((d) => xScale(d[xFactor])).strength(0.35))
+    .force('y', d3.forceY((d) => yScale(d[yFactor])).strength(0.35));
+}
+
 
 
 exports.createCirclesSimulation = (svg, data, factors) => {
@@ -108,23 +114,14 @@ exports.createCirclesSimulation = (svg, data, factors) => {
 
   const areaScale = createScale(data, 'value', bubbleAreaRange);
 
-  const simulation = d3.forceSimulation()
-
+  const simulation = simulation || d3.forceSimulation();
+  simulation.velocityDecay(0.5); // Prevent bubbles from spazing
 
   if(factors.position == 'geography'){
-    simulation
-      .force('x', d3.forceX((d) => lonScale(d.lon)).strength(0.35))
-      .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.35));
-
+    applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
   } else if(factors.position == 'president2016') {
-
     const groupScale = createScale(data, 'president2016', horizontalRange);
-
-    debugger
-
-    simulation
-      .force('x', d3.forceX((d) => groupScale(d.president2016)).strength(0.35))
-      .force('y', d3.forceY((d) => latScale(d.lat)).strength(0.35));
+    applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
   }
 
   simulation

@@ -89,12 +89,9 @@ const objectToArray = (object) => {
 
 
 
-const factors = {position: 'president2016'};
+const factors = {position: 'geography'};
 
 CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
-
-
-
 
 
 const fetchResultsAndUpdateDatabase = (keyword) => {
