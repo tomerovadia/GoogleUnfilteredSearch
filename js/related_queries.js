@@ -7,7 +7,13 @@ exports.renderRelatedQueries = (data) => {
 
   const selection = relatedQueriesDiv.selectAll('span').data(data);
 
+  selection
+    .html((d) => d[0])
+
   selection.enter()
     .append('span')
       .html((d) => d[0])
+
+  selection.exit()
+    .remove();
 };

@@ -187,9 +187,9 @@ const objectToArray = (object) => {
 
 
 
-RelatedQueriesFunctions.renderRelatedQueries(sampleRelatedQueries);
 
 
+// Initial factors
 const factors = {position: 'geography'};
 
 CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
@@ -197,13 +197,14 @@ CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 
 const fetchNewDataAndUpdate = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
-      console.log(results);
+      console.log('interest-level', results);
       updateDataset(results);
       CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
   });
 
   ApiUtil.fetchRelatedQueries(keyword).then((results) => {
-    console.log(results);
+    console.log('related-queries', results);
+    RelatedQueriesFunctions.renderRelatedQueries(results);
   });
 };
 
