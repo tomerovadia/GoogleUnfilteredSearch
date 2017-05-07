@@ -120,9 +120,8 @@ const renderCircles = (svg, data, factors) => {
 
 const applyXYForces = (simulation, xScale, yScale, xFactor, yFactor) => {
   simulation
-    .force('x', d3.forceX((d) => xScale(d[xFactor])).strength(0.5))
-    .force('y', d3.forceY((d) => yScale(d[yFactor])).strength(0.5))
-    .alphaTarget();
+    .force('x', d3.forceX((d) => xScale(d[xFactor])).strength(0.4))
+    .force('y', d3.forceY((d) => yScale(d[yFactor])).strength(0.4))
 }
 
 
@@ -133,7 +132,7 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   const areaScale = createScale(data, 'value', bubbleAreaRange);
 
   const simulation = simulation || d3.forceSimulation();
-  simulation.velocityDecay(0.5); // Prevent circles from spazing
+  simulation.velocityDecay(0.4); // Prevent circles from spazing
 
   // Determine position of the circles
   if(factors.position == 'geography'){

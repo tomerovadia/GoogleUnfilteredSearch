@@ -100,6 +100,10 @@ const fetchResultsAndUpdateDatabase = (keyword) => {
       updateDataset(results);
       CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
   });
+
+  ApiUtil.fetchRelatedQueries(keyword).then((results) => {
+    console.log(results);
+  });
 };
 
 
