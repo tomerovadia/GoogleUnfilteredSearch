@@ -15,7 +15,8 @@ const formatInterestByRegionResults = (rawResults) => {
   console.log('parsedResults', parsedResults);
   console.log('parsedResults.length', parsedResults.length);
 
-  for(var i=0; i < parsedResults.length; i++){
+  for(let i=0; i < parsedResults.length; i++){
+    console.log('i', i);
     const rawStateResult = parsedResults[i];
     console.log('rawStateResult', rawStateResult);
     const state = rawStateResult.geoCode.slice(-2);
