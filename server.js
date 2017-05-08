@@ -1,4 +1,4 @@
-“use strict”
+require('use-strict');
 
 var googleTrends = require('google-trends-api');
 var express = require('express');
