@@ -11,7 +11,7 @@ const formatInterestByRegionResults = (rawResults) => {
   const formattedResults = {};
   const parsedResults = JSON.parse(rawResults).default.geoMapData;
 
-  for(let i=0; i < parsedResults.length; i++){
+  for(var i=0; i < parsedResults.length; i++){
     const rawStateResult = parsedResults[i];
     const state = rawStateResult.geoCode.slice(-2);
     formattedResults[state] = rawStateResult.value[0];
