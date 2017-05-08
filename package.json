@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "engines": {
-    "node": "4.1.1",
+    "node": "7.4",
     "npm": "2.1.x"
   },
   "scripts": {

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -16900,6 +16900,31 @@ exports.createCirclesSimulation = function (svg, data, factors) {
 "use strict";
 
 
+var d3 = __webpack_require__(0);
+
+exports.renderRelatedQueries = function (data) {
+  var relatedQueriesDiv = d3.select('#related-queries-div');
+
+  var selection = relatedQueriesDiv.selectAll('span').data(data);
+
+  selection.html(function (d) {
+    return d[0];
+  });
+
+  selection.enter().append('span').html(function (d) {
+    return d[0];
+  });
+
+  selection.exit().remove();
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 exports.fetchInterestByRegion = function (keyword) {
 
   return $.ajax({
@@ -16917,15 +16942,15 @@ exports.fetchRelatedQueries = function (keyword) {
 };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var CircleFunctions = __webpack_require__(1);
-var RelatedQueriesFunctions = __webpack_require__(4);
-var ApiUtil = __webpack_require__(2);
+var RelatedQueriesFunctions = __webpack_require__(2);
+var ApiUtil = __webpack_require__(3);
 var d3 = __webpack_require__(0);
 
 var states = {
@@ -17039,31 +17064,6 @@ positionInputs.on('change', function () {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 });
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var d3 = __webpack_require__(0);
-
-exports.renderRelatedQueries = function (data) {
-  var relatedQueriesDiv = d3.select('#related-queries-div');
-
-  var selection = relatedQueriesDiv.selectAll('span').data(data);
-
-  selection.html(function (d) {
-    return d[0];
-  });
-
-  selection.enter().append('span').html(function (d) {
-    return d[0];
-  });
-
-  selection.exit().remove();
-};
 
 /***/ })
 /******/ ]);
