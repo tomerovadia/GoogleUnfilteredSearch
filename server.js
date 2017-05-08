@@ -8,6 +8,7 @@ var app = express();
 // Fomatting results
 
 const formatInterestByRegionResults = (rawResults) => {
+  console.log('rawResults', rawResults);
   const formattedResults = {};
   const parsedResults = JSON.parse(rawResults).default.geoMapData;
 
@@ -17,6 +18,7 @@ const formatInterestByRegionResults = (rawResults) => {
     formattedResults[state] = rawStateResult.value[0];
   }
 
+  console.log('formattedResults', formattedResults);
   return formattedResults;
 }
 
@@ -31,7 +33,7 @@ const formatRelatedKeywordsResults = (rawResults) => {
 
 
 
-// Routes
+// Routes and controller actions
 
 app.get('/interest-by-region', (req, res) => {
   console.log(`Received interest-by-region request for keyword "${req.query.keyword}"`);
