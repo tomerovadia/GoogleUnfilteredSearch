@@ -1,3 +1,5 @@
+“use strict”
+
 var googleTrends = require('google-trends-api');
 var express = require('express');
 var jbuilder = require('jbuilder');
