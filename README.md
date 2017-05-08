@@ -1,5 +1,7 @@
 # Google Trends Explorer
 
+[Live Link](http://google-trends-explorer.herokuapp.com/)
+
 ## Background
 
 The __Google Trends Explorer__ is an interactive interface for exploring Google search queries by location and time.
@@ -56,4 +58,3 @@ Users will be able to:
 
 - [ ] See a line graph
 - [ ] Click on a bubble to see that state's interest in that topic overtime rendered on the line graph
-
