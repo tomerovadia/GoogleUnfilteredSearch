@@ -82,11 +82,11 @@ app.get('/index.html', function (req, res) {
 });
 
 
-// Set up server
-var server = app.listen(8081, () => {
-
-   var host = server.address().address
-   var port = server.address().port
-
-   console.log("Google Trends Explorer App API listening at http://%s:%s", host, port)
-});
+// // Set up server
+// var server = app.listen(8081, () => {
+//
+//    var host = server.address().address
+//    var port = server.address().port
+//
+//    console.log("Google Trends Explorer App API listening at http://%s:%s", host, port)
+// });
