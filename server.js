@@ -1,4 +1,5 @@
 require('use-strict');
+require('strict-mode');
 "use-strict"
 
 var googleTrends = require('google-trends-api');
