@@ -70,7 +70,7 @@ var dataset = objectToArray(states);
 
 
 
-const height = 1000;
+const height = 800;
 const width = 1300;
 
 const svg = d3.select('body')
@@ -79,7 +79,8 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-//
+
+
 // const updateDataset = (results) => {
 //   for(const key in results){
 //     states[key].value = results[key];
@@ -107,12 +108,10 @@ const prepareDataset = (results) => {
 
 
 
-
 // Initial factors
 const factors = {position: 'geography'};
 
-CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
-
+CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 const fetchNewDataAndUpdate = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
@@ -133,9 +132,16 @@ const form = d3.select('#query-form');
 form.on('submit', function() {
   d3.event.preventDefault();
   var keyword = this.querySelector('#keyword-input').value;
-  // d3.select('#keyword-input').value
   fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
+
+  console.log(d3.select('#keyword-container'));
+
+  d3.select('#keyword-div').style('display', 'block');
+  d3.select('#keyword-div').html(keyword);
+
+  // document.querySelector('#keyword-container').style('display', 'flex');
+  // document.querySelector('#keyword-div').html('potato');
 });
 
 const positionRadioInputs = d3.selectAll('.position-radio-input');

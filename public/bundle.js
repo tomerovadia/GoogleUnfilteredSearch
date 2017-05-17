@@ -16828,7 +16828,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
 
   var updateCircles = function updateCircles() {
 
-    svg.selectAll('circle').data(data, function (d) {
+    svg.selectAll('g').selectAll('circle').data(data, function (d) {
       return d.name;
     }).transition().attr('r', function (d) {
       return Math.sqrt(scales.areaScale(d.value) / Math.PI);
@@ -16836,7 +16836,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
       return calculateCircleColor(d, factors);
     });
 
-    svg.selectAll('text').data(data, function (d) {
+    svg.selectAll('g').selectAll('text').data(data, function (d) {
       return d.name;
     }).attr('x', function (d) {
       return -1 * scales.textSizeScale(d.value) / 1.5;
@@ -16907,21 +16907,40 @@ exports.createCirclesSimulation = function (svg, data, factors) {
 "use strict";
 
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var d3 = __webpack_require__(0);
 
+var createScale = function createScale(data, range) {
+  return d3.scaleLinear().domain(getMinMax(data, factor)).range(range);
+};
+
 exports.renderRelatedQueries = function (data) {
+  var spanOpacityRange = [0.5, 1];
+  var relatednessValues = data.map(function (result) {
+    return result[1];
+  });
+  var spanOpacityDomain = [Math.min.apply(Math, _toConsumableArray(relatednessValues)), Math.max.apply(Math, _toConsumableArray(relatednessValues))];
+
+  var spanOpacityScale = d3.scaleLinear().domain(spanOpacityDomain).range(spanOpacityRange);
+
   var relatedQueriesDiv = d3.select('#related-queries-div');
 
   var selection = relatedQueriesDiv.selectAll('span').data(data);
 
+  // Update
   selection.html(function (d) {
-    return d[0];
+    return d[0] + ' &#9679; ' + d[1];
   });
 
+  // Enter
   selection.enter().append('span').html(function (d) {
-    return d[0];
+    return d[0] + ' &#9679; ' + d[1];
+  }).style('color', 'white').style('background-color', function (d) {
+    return 'rgba(0, 0, 244, ' + spanOpacityScale(d[1]) + ')';
   });
 
+  // Exit
   selection.exit().remove();
 };
 
@@ -17022,12 +17041,11 @@ var objectToArray = function objectToArray(object) {
 
 var dataset = objectToArray(states);
 
-var height = 1000;
+var height = 800;
 var width = 1300;
 
 var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
 
-//
 // const updateDataset = (results) => {
 //   for(const key in results){
 //     states[key].value = results[key];
@@ -17056,7 +17074,7 @@ var prepareDataset = function prepareDataset(results) {
 // Initial factors
 var factors = { position: 'geography' };
 
-CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
+CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 var fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
   ApiUtil.fetchInterestByRegion(keyword).then(function (results) {
@@ -17076,9 +17094,16 @@ var form = d3.select('#query-form');
 form.on('submit', function () {
   d3.event.preventDefault();
   var keyword = this.querySelector('#keyword-input').value;
-  // d3.select('#keyword-input').value
   fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
+
+  console.log(d3.select('#keyword-container'));
+
+  d3.select('#keyword-div').style('display', 'block');
+  d3.select('#keyword-div').html(keyword);
+
+  // document.querySelector('#keyword-container').style('display', 'flex');
+  // document.querySelector('#keyword-div').html('potato');
 });
 
 var positionRadioInputs = d3.selectAll('.position-radio-input');

@@ -70,3 +70,17 @@ div, img, span, label, input, fieldset {
   cursor: pointer;
   font-size: 12px;
 }
+
+#keyword-container {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+
+#keyword-div {
+  display: none;
+  text-align: center;
+  width: 100%;
+  font-size: 40px;
+}

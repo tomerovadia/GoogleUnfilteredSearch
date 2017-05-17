@@ -91,13 +91,13 @@ const renderCircles = (svg, data, factors) => {
 
   const updateCircles = () => {
 
-    svg.selectAll('circle')
+    svg.selectAll('g').selectAll('circle')
       .data(data, d => d.name)
       .transition()
       .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ))
       .style('fill', (d) => calculateCircleColor(d, factors));
 
-    svg.selectAll('text')
+    svg.selectAll('g').selectAll('text')
       .data(data, d => d.name)
       .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
       .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
@@ -150,7 +150,7 @@ exports.createCirclesSimulation = (svg, data, factors) => {
     .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
 
   const circleGroups = renderCircles(svg, data, factors);
-  
+
   const ticked = () => {
     circleGroups
       .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
