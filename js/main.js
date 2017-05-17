@@ -73,22 +73,17 @@ var dataset = objectToArray(states);
 const height = 900;
 const width = 1300;
 
-const svg = d3.select('body')
+const svg = d3.select('#svg-div')
   .append('svg')
   .attr('width', width)
-  .attr('height', height)
+  .attr('height', height);
 
 svg
   .append('g')
-    .attr('id', 'keyword-g')
+  .attr('id', 'keyword-g')
+  .style('transform', `translate(${1300 / 2}px, 60px)`)
     .append('text')
-      .attr('id', 'keyword-text')
-
-// const updateDataset = (results) => {
-//   for(const key in results){
-//     states[key].value = results[key];
-//   };
-// };
+    .attr('id', 'keyword-text');
 
 const prepareDataset = (results) => {
   dataset = [];
@@ -120,12 +115,25 @@ CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 
 
+
 const fetchNewDataAndUpdate = (keyword) => {
+
+  // Cover SVG with transparent white overlay and loading gif
+  svg.append('g')
+    .attr('id', 'svg-modal-g')
+      .append('rect')
+      .attr('id', 'svg-modal')
+        .append('circle')
+        .attr('class', 'loading-circle')
+
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
       console.log('interest-by-region', results);
       const dataset = prepareDataset(results);
       CircleFunctions.createCirclesSimulation(svg, dataset, factors);
-  });
+  })
+    .then(() => svg.select('#svg-modal-g').remove());
+
+
 
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
   d3.select('#related-queries-div').selectAll('span').style('display', 'none');
@@ -139,6 +147,7 @@ const fetchNewDataAndUpdate = (keyword) => {
     .then(() => d3.select('#related-queries-loading-gif-container').style('display', 'none'))
     .then(() => d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block'));
 };
+
 
 
 
@@ -158,6 +167,9 @@ form.on('submit', function() {
   // document.querySelector('#keyword-container').style('display', 'flex');
   // document.querySelector('#keyword-div').html('potato');
 });
+
+
+
 
 const positionRadioInputs = d3.selectAll('.position-radio-input');
 

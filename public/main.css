@@ -18,12 +18,31 @@ body {
   margin: 0 auto;
 }
 
-svg {
+#svg-div {
   background-color: white;
   margin: 10px auto;
   border-radius: 4px;
   display: block;
   border: 1px solid rgb(224, 224, 224);
+  width: 97%;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+#svg-modal {
+  fill: rgba(255,255,255,0.5);
+  height: 100%;
+  width: 100%;
+}
+
+.loading-circle {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
 }
 
 #header {
@@ -71,9 +90,10 @@ svg {
   border: 1px solid #ccc;
   background: none;
   box-shadow: none;
-  border-radius: 1px;
+  border-radius: 2px;
   margin: 0 10px;
   font-size: 18px;
+  cursor: pointer;
 }
 
 #related-queries-div {
@@ -101,8 +121,7 @@ svg {
 
 #keyword-g {
   height: 100px;
-  width: 100px;
-  transform: translate(600px,60px);
+  width: 100%;
 }
 
 

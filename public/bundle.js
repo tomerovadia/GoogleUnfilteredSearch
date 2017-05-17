@@ -17043,15 +17043,9 @@ var dataset = objectToArray(states);
 var height = 900;
 var width = 1300;
 
-var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
+var svg = d3.select('#svg-div').append('svg').attr('width', width).attr('height', height);
 
-svg.append('g').attr('id', 'keyword-g').append('text').attr('id', 'keyword-text');
-
-// const updateDataset = (results) => {
-//   for(const key in results){
-//     states[key].value = results[key];
-//   };
-// };
+svg.append('g').attr('id', 'keyword-g').style('transform', 'translate(' + 1300 / 2 + 'px, 60px)').append('text').attr('id', 'keyword-text');
 
 var prepareDataset = function prepareDataset(results) {
   dataset = [];
@@ -17078,10 +17072,16 @@ var factors = { position: 'geography' };
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 var fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
+
+  // Cover SVG with transparent white overlay and loading gif
+  svg.append('g').attr('id', 'svg-modal-g').append('rect').attr('id', 'svg-modal').append('circle').attr('class', 'loading-circle');
+
   ApiUtil.fetchInterestByRegion(keyword).then(function (results) {
     console.log('interest-by-region', results);
     var dataset = prepareDataset(results);
     CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+  }).then(function () {
+    return svg.select('#svg-modal-g').remove();
   });
 
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
