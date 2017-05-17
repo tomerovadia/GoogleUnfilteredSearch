@@ -16795,14 +16795,18 @@ var calculateCircleColor = function calculateCircleColor(d, factors) {
   }
 };
 
-var updateCircles = function updateCircles(selection, scales, factors) {
-  selection.selectAll('circle').transition().attr('r', function (d) {
+var updateCircles = function updateCircles(svg, data, scales, factors) {
+  svg.selectAll('circle').data(data, function (d) {
+    return d.name;
+  }).transition().attr('r', function (d) {
     return Math.sqrt(scales.areaScale(d.value) / Math.PI);
   }).style('fill', function (d) {
     return calculateCircleColor(d, factors);
   });
 
-  selection.selectAll('text').attr('x', function (d) {
+  svg.selectAll('text').data(data, function (d) {
+    return d.name;
+  }).attr('x', function (d) {
     return -1 * scales.textSizeScale(d.value) / 1.5;
   }).attr('y', function (d) {
     return scales.textSizeScale(d.value) / 2.4;
@@ -16845,7 +16849,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
   });
 
   exitCircles(selection.exit(), scales);
-  updateCircles(selection, scales, factors);
+  updateCircles(svg, data, scales, factors);
   enterCircles(selection.enter(), scales);
 
   return svg.selectAll('g');
@@ -17018,6 +17022,19 @@ var updateDataset = function updateDataset(results) {
   };
 };
 
+var prepareDataset = function prepareDataset(results) {
+  var dataset = [];
+
+  for (var key in results) {
+    var stateObject = Object.assign({}, states[key]);
+    stateObject.name = key;
+    stateObject.value = results[key];
+    dataset.push(stateObject);
+  };
+
+  return dataset;
+};
+
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
     return Object.assign(object[key], { name: key });
@@ -17038,8 +17055,8 @@ CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 var fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
   ApiUtil.fetchInterestByRegion(keyword).then(function (results) {
     console.log('interest-by-region', results);
-    updateDataset(results);
-    CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
+    var dataset = prepareDataset(results);
+    CircleFunctions.createCirclesSimulation(svg, dataset, factors);
   });
 
   ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
@@ -17058,9 +17075,9 @@ form.on('submit', function () {
   this.querySelector('#keyword-input').value = ''; // clear input
 });
 
-var positionInputs = d3.selectAll('.position-input');
+var positionRadioInputs = d3.selectAll('.position-radio-input');
 
-positionInputs.on('change', function () {
+positionRadioInputs.on('change', function () {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 });

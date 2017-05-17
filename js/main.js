@@ -69,9 +69,22 @@ const svg = d3.select('body')
 
 
 const updateDataset = (results) => {
-  for (const key in results){
+  for(const key in results){
     states[key].value = results[key];
   };
+};
+
+const prepareDataset = (results) => {
+  const dataset = [];
+
+  for(const key in results){
+    const stateObject = Object.assign({}, states[key]);
+    stateObject.name = key;
+    stateObject.value = results[key];
+    dataset.push(stateObject);
+  };
+
+  return dataset;
 };
 
 
@@ -100,8 +113,8 @@ CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 const fetchNewDataAndUpdate = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
       console.log('interest-by-region', results);
-      updateDataset(results);
-      CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
+      const dataset = prepareDataset(results);
+      CircleFunctions.createCirclesSimulation(svg, dataset, factors);
   });
 
   ApiUtil.fetchRelatedQueries(keyword).then((results) => {
@@ -121,9 +134,9 @@ form.on('submit', function() {
   this.querySelector('#keyword-input').value = ''; // clear input
 });
 
-const positionInputs = d3.selectAll('.position-input');
+const positionRadioInputs = d3.selectAll('.position-radio-input');
 
-positionInputs.on('change', function() {
+positionRadioInputs.on('change', function() {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
 });

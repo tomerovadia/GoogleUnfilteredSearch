@@ -57,13 +57,15 @@ const calculateCircleColor = (d, factors) => {
 
 
 
-const updateCircles = (selection, scales, factors) => {
-  selection.selectAll('circle')
+const updateCircles = (svg, data, scales, factors) => {
+  svg.selectAll('circle')
+    .data(data, d => d.name)
     .transition()
     .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ))
     .style('fill', (d) => calculateCircleColor(d, factors));
 
-  selection.selectAll('text')
+  svg.selectAll('text')
+    .data(data, d => d.name)
     .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
     .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
     .style('font-size', (d) => scales.textSizeScale(d.value));
@@ -109,7 +111,7 @@ const renderCircles = (svg, data, factors) => {
                      .data(data, (d) => d.name)
 
   exitCircles(selection.exit(), scales);
-  updateCircles(selection, scales, factors);
+  updateCircles(svg, data, scales, factors);
   enterCircles(selection.enter(), scales);
 
   return svg.selectAll('g');
