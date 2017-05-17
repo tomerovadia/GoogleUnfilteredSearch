@@ -16887,6 +16887,8 @@ exports.createCirclesSimulation = function (svg, data, factors) {
     return Math.sqrt(areaScale(d.value) / Math.PI) + 2;
   }));
 
+  var circleGroups = renderCircles(svg, data, factors);
+
   var ticked = function ticked() {
     circleGroups.attr('transform', function (d) {
       return "translate(" + d.x + "," + d.y + ")";
@@ -16894,8 +16896,6 @@ exports.createCirclesSimulation = function (svg, data, factors) {
   };
 
   simulation.nodes(data).on("tick", ticked);
-
-  var circleGroups = renderCircles(svg, data, factors);
 
   return circleGroups;
 };

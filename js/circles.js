@@ -149,6 +149,8 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   simulation
     .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
 
+  const circleGroups = renderCircles(svg, data, factors);
+  
   const ticked = () => {
     circleGroups
       .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
@@ -157,7 +159,6 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   simulation.nodes(data)
     .on("tick", ticked);
 
-  const circleGroups = renderCircles(svg, data, factors);
 
   return circleGroups;
 
