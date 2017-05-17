@@ -9,6 +9,12 @@ body {
   background-color: rgb(238, 238, 238);
 }
 
+h3 {
+  font-size: 16px;
+  font-weight: normal;
+  color: rgba(0,0,0,0.87);
+}
+
 #selection-panel {
   width: 97%;
   border: 1px solid rgb(224, 224, 224);
@@ -60,6 +66,7 @@ svg {
   font-size: 45px;
   position: relative;
   top: -3px;
+  color: rgba(0,0,0,0.87);
 }
 
 #query-form {
@@ -73,6 +80,7 @@ svg {
 #query-form fieldset {
   font-size: 18px;
   margin: 0 10px;
+  color: rgba(0,0,0,0.87);
 }
 
 #query-form input[type=text] {
@@ -97,7 +105,7 @@ svg {
 }
 
 #related-queries-div {
-
+  display: none;
 }
 
 #related-queries-loading-gif-container {

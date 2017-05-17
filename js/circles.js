@@ -43,12 +43,12 @@ const calculateCircleColor = (d, factors) => {
     } else if(d.president2016 === 2){
       return 'red';
     } else {
-      return 'gray';
+      return 'rgb(251, 188, 5)';
     }
 
   } else {
 
-    return 'gray';
+    return 'rgb(57, 168, 83)';
 
   }
 };

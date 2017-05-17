@@ -1,4 +1,5 @@
 const d3 = require('d3');
+const MainFunctions = require('./main.js');
 
 const createScale = (data, range) => {
   return d3.scaleLinear()
@@ -12,7 +13,7 @@ exports.renderRelatedQueries = (data) => {
   const spanOpacityDomain = [Math.min(...relatednessValues), Math.max(...relatednessValues)]
   const spanOpacityScale = d3.scaleLinear().domain(spanOpacityDomain).range(spanOpacityRange);
 
-  const relatedQueriesDiv = d3.select('#related-queries-div');
+  const relatedQueriesDiv = d3.select('#related-queries-div')
 
   const selection = relatedQueriesDiv.selectAll('span').data(data);
 
@@ -23,6 +24,7 @@ exports.renderRelatedQueries = (data) => {
   // Enter
   selection.enter()
     .append('span')
+      .attr('class', 'related-queries-span')
       .html((d) => `${d[0]} &#9679; ${d[1]}`)
       .style('color', 'white')
       .style('background-color', (d) => `rgba(0, 0, 244, ${spanOpacityScale(d[1])})`);
@@ -30,4 +32,12 @@ exports.renderRelatedQueries = (data) => {
   // Exit
   selection.exit()
     .remove();
+
+
+  const relatedQueriesSpans = d3.selectAll('.related-queries-span');
+
+  relatedQueriesSpans.on('click', function(d) {
+    MainFunctions.fetchNewDataAndUpdate(d[0])
+  });
+
 };

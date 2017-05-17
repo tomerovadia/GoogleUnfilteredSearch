@@ -81,8 +81,9 @@ const svg = d3.select('#svg-div')
 svg
   .append('g')
   .attr('id', 'keyword-g')
-  .style('transform', `translate(${1300 / 2}px, 60px)`)
+  .style('transform', `translate(${(width / 2)}px, 60px)`)
     .append('text')
+    .style("text-anchor", "middle")
     .attr('id', 'keyword-text');
 
 const prepareDataset = (results) => {
@@ -116,15 +117,15 @@ CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 
 
-const fetchNewDataAndUpdate = (keyword) => {
+export const fetchNewDataAndUpdate = (keyword) => {
+
+  d3.select('#keyword-text').style('display', 'block').html(keyword);
 
   // Cover SVG with transparent white overlay and loading gif
   svg.append('g')
     .attr('id', 'svg-modal-g')
       .append('rect')
       .attr('id', 'svg-modal')
-        .append('circle')
-        .attr('class', 'loading-circle')
 
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
       console.log('interest-by-region', results);
@@ -134,7 +135,7 @@ const fetchNewDataAndUpdate = (keyword) => {
     .then(() => svg.select('#svg-modal-g').remove());
 
 
-
+  d3.select('#related-queries-div').style('display', 'block');
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
   d3.select('#related-queries-div').selectAll('span').style('display', 'none');
 
@@ -161,11 +162,6 @@ form.on('submit', function() {
   this.querySelector('#keyword-input').value = ''; // clear input
 
   console.log(d3.select('#keyword-container'));
-
-  d3.select('#keyword-text').style('display', 'block').html(keyword);
-
-  // document.querySelector('#keyword-container').style('display', 'flex');
-  // document.querySelector('#keyword-div').html('potato');
 });
 
 
