@@ -16948,6 +16948,12 @@ exports.renderRelatedQueries = function (data) {
   relatedQueriesSpans.on('click', function (d) {
     MainFunctions.fetchNewDataAndUpdate(d[0]);
   });
+
+  if (data.length === 0) {
+    d3.select('.no-related-queries-text').style('display', 'block');
+  } else {
+    d3.select('.no-related-queries-text').style('display', 'none');
+  }
 };
 
 /***/ }),

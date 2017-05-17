@@ -15,6 +15,13 @@ h3 {
   color: rgba(0,0,0,0.87);
 }
 
+.no-related-queries-text {
+  color: #bdbdbd;
+  font-weight: normal;
+  font-size: 14px;
+  display: none;
+}
+
 #selection-panel {
   width: 97%;
   border: 1px solid rgb(224, 224, 224);
