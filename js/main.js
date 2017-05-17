@@ -70,16 +70,19 @@ var dataset = objectToArray(states);
 
 
 
-const height = 800;
+const height = 900;
 const width = 1300;
 
 const svg = d3.select('body')
   .append('svg')
   .attr('width', width)
-  .attr('height', height);
+  .attr('height', height)
 
-
-
+svg
+  .append('g')
+    .attr('id', 'keyword-g')
+    .append('text')
+      .attr('id', 'keyword-text')
 
 // const updateDataset = (results) => {
 //   for(const key in results){
@@ -111,7 +114,11 @@ const prepareDataset = (results) => {
 // Initial factors
 const factors = {position: 'geography'};
 
+
+
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+
+
 
 const fetchNewDataAndUpdate = (keyword) => {
   ApiUtil.fetchInterestByRegion(keyword).then((results) => {
@@ -120,11 +127,20 @@ const fetchNewDataAndUpdate = (keyword) => {
       CircleFunctions.createCirclesSimulation(svg, dataset, factors);
   });
 
-  ApiUtil.fetchRelatedQueries(keyword).then((results) => {
-    console.log('related-queries', results);
-    RelatedQueriesFunctions.renderRelatedQueries(results);
-  });
+  d3.select('#related-queries-loading-gif-container').style('display', 'block');
+  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+
+  ApiUtil.fetchRelatedQueries(keyword)
+    .then((results) => {
+      console.log('related-queries', results);
+
+      RelatedQueriesFunctions.renderRelatedQueries(results);
+    })
+    .then(() => d3.select('#related-queries-loading-gif-container').style('display', 'none'))
+    .then(() => d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block'));
 };
+
+
 
 
 const form = d3.select('#query-form');
@@ -137,8 +153,7 @@ form.on('submit', function() {
 
   console.log(d3.select('#keyword-container'));
 
-  d3.select('#keyword-div').style('display', 'block');
-  d3.select('#keyword-div').html(keyword);
+  d3.select('#keyword-text').style('display', 'block').html(keyword);
 
   // document.querySelector('#keyword-container').style('display', 'flex');
   // document.querySelector('#keyword-div').html('potato');

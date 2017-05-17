@@ -16754,8 +16754,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var d3 = __webpack_require__(0);
 
-var horizontalRange = [150, 1100];
-var verticalRange = [200, 800];
+var horizontalRange = [200, 1050];
+var verticalRange = [150, 800];
 var bubbleAreaRange = [150, 10000];
 var textSizeRange = [8, 18];
 
@@ -16802,12 +16802,12 @@ var renderCircles = function renderCircles(svg, data, factors) {
     textSizeScale: createScale(data, 'value', textSizeRange)
   };
 
-  var selection = svg.selectAll('g').data(data, function (d) {
+  var selection = svg.selectAll('.circle-g').data(data, function (d) {
     return d.name;
   });
 
   var enterCircles = function enterCircles() {
-    var selectionEnterGroups = selection.enter().append('g');
+    var selectionEnterGroups = selection.enter().append('g').attr('class', 'circle-g');
 
     selectionEnterGroups.append('circle').transition().style('fill', function (d) {
       return calculateCircleColor(d, factors);
@@ -16828,7 +16828,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
 
   var updateCircles = function updateCircles() {
 
-    svg.selectAll('g').selectAll('circle').data(data, function (d) {
+    svg.selectAll('.circle-g').selectAll('circle').data(data, function (d) {
       return d.name;
     }).transition().attr('r', function (d) {
       return Math.sqrt(scales.areaScale(d.value) / Math.PI);
@@ -16836,7 +16836,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
       return calculateCircleColor(d, factors);
     });
 
-    svg.selectAll('g').selectAll('text').data(data, function (d) {
+    svg.selectAll('.circle-g').selectAll('text').data(data, function (d) {
       return d.name;
     }).attr('x', function (d) {
       return -1 * scales.textSizeScale(d.value) / 1.5;
@@ -16855,7 +16855,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
   updateCircles();
   enterCircles(selection.enter(), scales);
 
-  return svg.selectAll('g');
+  return svg.selectAll('.circle-g');
 };
 
 var applyXYForces = function applyXYForces(simulation, xScale, yScale, xFactor, yFactor) {
@@ -16921,7 +16921,6 @@ exports.renderRelatedQueries = function (data) {
     return result[1];
   });
   var spanOpacityDomain = [Math.min.apply(Math, _toConsumableArray(relatednessValues)), Math.max.apply(Math, _toConsumableArray(relatednessValues))];
-
   var spanOpacityScale = d3.scaleLinear().domain(spanOpacityDomain).range(spanOpacityRange);
 
   var relatedQueriesDiv = d3.select('#related-queries-div');
@@ -17041,10 +17040,12 @@ var objectToArray = function objectToArray(object) {
 
 var dataset = objectToArray(states);
 
-var height = 800;
+var height = 900;
 var width = 1300;
 
 var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
+
+svg.append('g').attr('id', 'keyword-g').append('text').attr('id', 'keyword-text');
 
 // const updateDataset = (results) => {
 //   for(const key in results){
@@ -17083,9 +17084,17 @@ var fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
     CircleFunctions.createCirclesSimulation(svg, dataset, factors);
   });
 
+  d3.select('#related-queries-loading-gif-container').style('display', 'block');
+  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+
   ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
     console.log('related-queries', results);
+
     RelatedQueriesFunctions.renderRelatedQueries(results);
+  }).then(function () {
+    return d3.select('#related-queries-loading-gif-container').style('display', 'none');
+  }).then(function () {
+    return d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
   });
 };
 
@@ -17099,8 +17108,7 @@ form.on('submit', function () {
 
   console.log(d3.select('#keyword-container'));
 
-  d3.select('#keyword-div').style('display', 'block');
-  d3.select('#keyword-div').html(keyword);
+  d3.select('#keyword-text').style('display', 'block').html(keyword);
 
   // document.querySelector('#keyword-container').style('display', 'flex');
   // document.querySelector('#keyword-div').html('potato');

@@ -10,7 +10,6 @@ exports.renderRelatedQueries = (data) => {
   const spanOpacityRange = [0.5, 1];
   const relatednessValues = data.map((result) => result[1]);
   const spanOpacityDomain = [Math.min(...relatednessValues), Math.max(...relatednessValues)]
-
   const spanOpacityScale = d3.scaleLinear().domain(spanOpacityDomain).range(spanOpacityRange);
 
   const relatedQueriesDiv = d3.select('#related-queries-div');

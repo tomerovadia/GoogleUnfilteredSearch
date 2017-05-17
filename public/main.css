@@ -5,11 +5,25 @@ div, img, span, label, input, fieldset {
   padding: 0;
 }
 
+body {
+  background-color: rgb(238, 238, 238);
+}
+
 #selection-panel {
-  width: 100%;
-  border: 1px solid #ccc;
+  width: 97%;
+  border: 1px solid rgb(224, 224, 224);
   padding: 20px;
   border-radius: 4px;
+  background-color: white;
+  margin: 0 auto;
+}
+
+svg {
+  background-color: white;
+  margin: 10px auto;
+  border-radius: 4px;
+  display: block;
+  border: 1px solid rgb(224, 224, 224);
 }
 
 #header {
@@ -62,6 +76,20 @@ div, img, span, label, input, fieldset {
   font-size: 18px;
 }
 
+#related-queries-div {
+
+}
+
+#related-queries-loading-gif-container {
+  display: none;
+}
+
+#related-queries-loading-gif-container img {
+  margin: 0 auto;
+  display: block;
+  height: 75px;
+}
+
 #related-queries-div span {
   display: inline-block;
   border: 1px solid black;
@@ -71,14 +99,14 @@ div, img, span, label, input, fieldset {
   font-size: 12px;
 }
 
-#keyword-container {
-  display: flex;
-  align-items: center;
+#keyword-g {
   height: 100px;
+  width: 100px;
+  transform: translate(600px,60px);
 }
 
 
-#keyword-div {
+#keyword-text {
   display: none;
   text-align: center;
   width: 100%;

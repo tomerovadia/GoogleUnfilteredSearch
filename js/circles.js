@@ -1,7 +1,7 @@
 const d3 = require('d3');
 
-const horizontalRange = [150, 1100];
-const verticalRange = [200, 800];
+const horizontalRange = [200, 1050];
+const verticalRange = [150, 800];
 const bubbleAreaRange = [150, 10000];
 const textSizeRange = [8, 18];
 
@@ -68,11 +68,13 @@ const renderCircles = (svg, data, factors) => {
     textSizeScale: createScale(data, 'value', textSizeRange),
   };
 
-  let selection = svg.selectAll('g')
+  let selection = svg.selectAll('.circle-g')
                      .data(data, (d) => d.name)
 
  const enterCircles = () => {
-   let selectionEnterGroups = selection.enter().append('g');
+   let selectionEnterGroups = selection.enter()
+                                      .append('g')
+                                      .attr('class','circle-g');
 
    selectionEnterGroups.append('circle')
      .transition()
@@ -91,13 +93,13 @@ const renderCircles = (svg, data, factors) => {
 
   const updateCircles = () => {
 
-    svg.selectAll('g').selectAll('circle')
+    svg.selectAll('.circle-g').selectAll('circle')
       .data(data, d => d.name)
       .transition()
       .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ))
       .style('fill', (d) => calculateCircleColor(d, factors));
 
-    svg.selectAll('g').selectAll('text')
+    svg.selectAll('.circle-g').selectAll('text')
       .data(data, d => d.name)
       .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
       .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
@@ -114,7 +116,7 @@ const renderCircles = (svg, data, factors) => {
   updateCircles();
   enterCircles(selection.enter(), scales);
 
-  return svg.selectAll('g');
+  return svg.selectAll('.circle-g');
 
 };
 
