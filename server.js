@@ -52,7 +52,7 @@ app.get('/interest-by-region', (req, res) => {
 
   googleTrends.interestByRegion({
    geo: 'US',
-   resolution: 'state',
+   resolution: 'State',
    keyword: req.query.keyword,
    startTime: date,
   }).then(

@@ -57,45 +57,6 @@ const calculateCircleColor = (d, factors) => {
 
 
 
-const updateCircles = (svg, data, scales, factors) => {
-  svg.selectAll('circle')
-    .data(data, d => d.name)
-    .transition()
-    .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ))
-    .style('fill', (d) => calculateCircleColor(d, factors));
-
-  svg.selectAll('text')
-    .data(data, d => d.name)
-    .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
-    .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
-    .style('font-size', (d) => scales.textSizeScale(d.value));
-};
-
-
-
-const enterCircles = (selection, scales) => {
-  let selectionEnterGroups = selection.append('g');
-
-  selectionEnterGroups.append('circle')
-    .style('fill', 'gray')
-    .style('stroke', 'black')
-    .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
-
-  selectionEnterGroups.append('text')
-    .text((d) => d.name)
-    .style('font-family', 'Arial')
-    .style('fill', 'white')
-    .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
-    .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
-    .style('font-size', (d) => scales.textSizeScale(d.value));
-};
-
-
-
-const exitCircles = (selection) => {
-  selection.remove();
-};
-
 
 
 
@@ -110,8 +71,47 @@ const renderCircles = (svg, data, factors) => {
   let selection = svg.selectAll('g')
                      .data(data, (d) => d.name)
 
+ const enterCircles = () => {
+   let selectionEnterGroups = selection.enter().append('g');
+
+   selectionEnterGroups.append('circle')
+     .transition()
+     .style('fill', (d) => calculateCircleColor(d, factors))
+     .style('stroke', 'black')
+     .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
+
+   selectionEnterGroups.append('text')
+     .text((d) => d.name)
+     .style('font-family', 'Arial')
+     .style('fill', 'white')
+     .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
+     .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
+     .style('font-size', (d) => scales.textSizeScale(d.value));
+ };
+
+  const updateCircles = () => {
+
+    svg.selectAll('circle')
+      .data(data, d => d.name)
+      .transition()
+      .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ))
+      .style('fill', (d) => calculateCircleColor(d, factors));
+
+    svg.selectAll('text')
+      .data(data, d => d.name)
+      .attr('x', (d) => (-1 * scales.textSizeScale(d.value)/1.5))
+      .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
+      .style('font-size', (d) => scales.textSizeScale(d.value));
+  };
+
+  const exitCircles = () => {
+    selection.exit().transition().remove();
+  };
+
+
+
   exitCircles(selection.exit(), scales);
-  updateCircles(svg, data, scales, factors);
+  updateCircles();
   enterCircles(selection.enter(), scales);
 
   return svg.selectAll('g');

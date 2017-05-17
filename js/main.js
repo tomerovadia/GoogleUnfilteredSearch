@@ -58,6 +58,18 @@ let states = {
   WY: {lat: 42.755966, lon:	-107.302490, value: 97813.01, president2016: 2},
 }
 
+
+const objectToArray = (object) => {
+  return Object.keys(object).map((key) => {
+    return Object.assign(object[key], {name: key})
+  });
+};
+
+var dataset = objectToArray(states);
+
+
+
+
 const height = 1000;
 const width = 1300;
 
@@ -67,15 +79,15 @@ const svg = d3.select('body')
   .attr('height', height);
 
 
-
-const updateDataset = (results) => {
-  for(const key in results){
-    states[key].value = results[key];
-  };
-};
+//
+// const updateDataset = (results) => {
+//   for(const key in results){
+//     states[key].value = results[key];
+//   };
+// };
 
 const prepareDataset = (results) => {
-  const dataset = [];
+  dataset = [];
 
   for(const key in results){
     const stateObject = Object.assign({}, states[key]);
@@ -86,14 +98,6 @@ const prepareDataset = (results) => {
 
   return dataset;
 };
-
-
-const objectToArray = (object) => {
-  return Object.keys(object).map((key) => {
-    return Object.assign(object[key], {name: key})
-  });
-};
-
 
 
 // window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
@@ -138,5 +142,5 @@ const positionRadioInputs = d3.selectAll('.position-radio-input');
 
 positionRadioInputs.on('change', function() {
   factors.position = this.value;
-  CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
+  CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });

@@ -16795,48 +16795,6 @@ var calculateCircleColor = function calculateCircleColor(d, factors) {
   }
 };
 
-var updateCircles = function updateCircles(svg, data, scales, factors) {
-  svg.selectAll('circle').data(data, function (d) {
-    return d.name;
-  }).transition().attr('r', function (d) {
-    return Math.sqrt(scales.areaScale(d.value) / Math.PI);
-  }).style('fill', function (d) {
-    return calculateCircleColor(d, factors);
-  });
-
-  svg.selectAll('text').data(data, function (d) {
-    return d.name;
-  }).attr('x', function (d) {
-    return -1 * scales.textSizeScale(d.value) / 1.5;
-  }).attr('y', function (d) {
-    return scales.textSizeScale(d.value) / 2.4;
-  }).style('font-size', function (d) {
-    return scales.textSizeScale(d.value);
-  });
-};
-
-var enterCircles = function enterCircles(selection, scales) {
-  var selectionEnterGroups = selection.append('g');
-
-  selectionEnterGroups.append('circle').style('fill', 'gray').style('stroke', 'black').attr('r', function (d) {
-    return Math.sqrt(scales.areaScale(d.value) / Math.PI);
-  });
-
-  selectionEnterGroups.append('text').text(function (d) {
-    return d.name;
-  }).style('font-family', 'Arial').style('fill', 'white').attr('x', function (d) {
-    return -1 * scales.textSizeScale(d.value) / 1.5;
-  }).attr('y', function (d) {
-    return scales.textSizeScale(d.value) / 2.4;
-  }).style('font-size', function (d) {
-    return scales.textSizeScale(d.value);
-  });
-};
-
-var exitCircles = function exitCircles(selection) {
-  selection.remove();
-};
-
 var renderCircles = function renderCircles(svg, data, factors) {
 
   var scales = {
@@ -16848,8 +16806,53 @@ var renderCircles = function renderCircles(svg, data, factors) {
     return d.name;
   });
 
+  var enterCircles = function enterCircles() {
+    var selectionEnterGroups = selection.enter().append('g');
+
+    selectionEnterGroups.append('circle').transition().style('fill', function (d) {
+      return calculateCircleColor(d, factors);
+    }).style('stroke', 'black').attr('r', function (d) {
+      return Math.sqrt(scales.areaScale(d.value) / Math.PI);
+    });
+
+    selectionEnterGroups.append('text').text(function (d) {
+      return d.name;
+    }).style('font-family', 'Arial').style('fill', 'white').attr('x', function (d) {
+      return -1 * scales.textSizeScale(d.value) / 1.5;
+    }).attr('y', function (d) {
+      return scales.textSizeScale(d.value) / 2.4;
+    }).style('font-size', function (d) {
+      return scales.textSizeScale(d.value);
+    });
+  };
+
+  var updateCircles = function updateCircles() {
+
+    svg.selectAll('circle').data(data, function (d) {
+      return d.name;
+    }).transition().attr('r', function (d) {
+      return Math.sqrt(scales.areaScale(d.value) / Math.PI);
+    }).style('fill', function (d) {
+      return calculateCircleColor(d, factors);
+    });
+
+    svg.selectAll('text').data(data, function (d) {
+      return d.name;
+    }).attr('x', function (d) {
+      return -1 * scales.textSizeScale(d.value) / 1.5;
+    }).attr('y', function (d) {
+      return scales.textSizeScale(d.value) / 2.4;
+    }).style('font-size', function (d) {
+      return scales.textSizeScale(d.value);
+    });
+  };
+
+  var exitCircles = function exitCircles() {
+    selection.exit().transition().remove();
+  };
+
   exitCircles(selection.exit(), scales);
-  updateCircles(svg, data, scales, factors);
+  updateCircles();
   enterCircles(selection.enter(), scales);
 
   return svg.selectAll('g');
@@ -17011,19 +17014,28 @@ var states = {
   WY: { lat: 42.755966, lon: -107.302490, value: 97813.01, president2016: 2 }
 };
 
+var objectToArray = function objectToArray(object) {
+  return Object.keys(object).map(function (key) {
+    return Object.assign(object[key], { name: key });
+  });
+};
+
+var dataset = objectToArray(states);
+
 var height = 1000;
 var width = 1300;
 
 var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
 
-var updateDataset = function updateDataset(results) {
-  for (var key in results) {
-    states[key].value = results[key];
-  };
-};
+//
+// const updateDataset = (results) => {
+//   for(const key in results){
+//     states[key].value = results[key];
+//   };
+// };
 
 var prepareDataset = function prepareDataset(results) {
-  var dataset = [];
+  dataset = [];
 
   for (var key in results) {
     var stateObject = Object.assign({}, states[key]);
@@ -17033,12 +17045,6 @@ var prepareDataset = function prepareDataset(results) {
   };
 
   return dataset;
-};
-
-var objectToArray = function objectToArray(object) {
-  return Object.keys(object).map(function (key) {
-    return Object.assign(object[key], { name: key });
-  });
 };
 
 // window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
@@ -17079,7 +17085,7 @@ var positionRadioInputs = d3.selectAll('.position-radio-input');
 
 positionRadioInputs.on('change', function () {
   factors.position = this.value;
-  CircleFunctions.createCirclesSimulation(svg, objectToArray(states), factors);
+  CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });
 
 /***/ })
