@@ -7,16 +7,20 @@ var express = require('express');
 var jbuilder = require('jbuilder');
 var app = express();
 
-
-
 // Fomatting results
 
 const formatInterestByRegionResults = (rawResults) => {
+  console.log('rawResults', rawResults);
   const formattedResults = {};
   const parsedResults = JSON.parse(rawResults).default.geoMapData;
 
+  console.log('parsedResults', parsedResults);
+  console.log('parsedResults.length', parsedResults.length);
+
   for(let i=0; i < parsedResults.length; i++){
+    console.log('i', i);
     const rawStateResult = parsedResults[i];
+    console.log('rawStateResult', rawStateResult);
     const state = rawStateResult.geoCode.slice(-2);
     formattedResults[state] = rawStateResult.value[0];
   }
@@ -27,67 +31,47 @@ const formatInterestByRegionResults = (rawResults) => {
 
 
 const formatRelatedKeywordsResults = (rawResults) => {
-  console.log(JSON.parse(rawResults).default.rankedList[1].rankedKeyword.map((result) => [result.query, result.value]));
   return JSON.parse(rawResults).default.rankedList[1].rankedKeyword.map((result) => [result.query, result.value]);
 };
+
+
 
 
 
 // Routes and controller actions
 
 app.get('/interest-by-region', (req, res) => {
-  keyword = req.query.keyword;
+  console.log(`Received interest-by-region request for keyword "${req.query.keyword}"`);
 
-  console.log(`Received interest-by-region request for keyword "${keyword}"`);
+  const date = new Date(); // set date to today
+  date.setDate(date.getDate() - 1); // change date to yesterday
 
-  if(keyword === ''){
-
-    res.send({});
-
-  } else {
-
-    const date = new Date(); // set date to today
-    date.setDate(date.getDate() - 1); // change date to yesterday
-
-    googleTrends.interestByRegion({
-     geo: 'US',
-     resolution: 'State',
-     keyword: keyword,
-     startTime: date,
-    }).then(
-        (results) => res.send(formatInterestByRegionResults(results)),
-        (errors) => res.send(errors)
-    );
-
-  }
-
+  googleTrends.interestByRegion({
+   geo: 'US',
+   resolution: 'State',
+   keyword: req.query.keyword,
+   startTime: date,
+  }).then(
+      (results) => res.send(formatInterestByRegionResults(results)),
+      (errors) => res.send(errors)
+  )
 });
 
 
 app.get('/related-queries', (req, res) => {
+  console.log(`Received related-queries request for keyword "${req.query.keyword}"`);
 
-  const keyword = req.query.keyword;
+  const date = new Date(); // set date to today
+  date.setDate(date.getDate() - 1); // change date to yesterday
 
-  console.log(`Received related-queries request for keyword "${keyword}"`);
-
-  if(keyword === ''){
-    res.send([]);
-  } else {
-
-    // Set yesterday variable to yesterday
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    googleTrends.relatedQueries({
+   googleTrends.relatedQueries({
      geo: 'US',
-     keyword: keyword,
-     startTime: yesterday,
-    }).then(
+     keyword: req.query.keyword,
+     startTime: date,
+   }).then(
         (results) => res.send(formatRelatedKeywordsResults(results)),
         (errors) => res.send(errors)
-    );
-
-  }
+   )
 });
 
 
@@ -107,9 +91,6 @@ app.get('/index.html', function (req, res) {
 
 // Set up server
 var server = app.listen(process.env.PORT || 8081, () => {
-
-  //  var host = server.address().address
-  //  var port = server.address().port
 
    console.log("Google Trends Explorer App API listening at 8081");
 });

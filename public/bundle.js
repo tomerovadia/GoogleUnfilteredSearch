@@ -16855,6 +16855,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
   updateCircles();
   enterCircles(selection.enter(), scales);
 
+  console.log(svg.selectAll('.circle-g').data());
   return svg.selectAll('.circle-g');
 };
 
@@ -16890,7 +16891,8 @@ exports.createCirclesSimulation = function (svg, data, factors) {
   var circleGroups = renderCircles(svg, data, factors);
 
   var ticked = function ticked() {
-    circleGroups.attr('transform', function (d) {
+    svg.selectAll('.circle-g').attr('transform', function (d) {
+      if (d === undefined) debugger;
       return "translate(" + d.x + "," + d.y + ")";
     });
   };
@@ -16931,6 +16933,8 @@ exports.renderRelatedQueries = function (data) {
   // Update
   selection.html(function (d) {
     return d[0] + ' &#9679; ' + d[1];
+  }).style('background-color', function (d) {
+    return 'rgba(0, 0, 244, ' + spanOpacityScale(d[1]) + ')';
   });
 
   // Enter

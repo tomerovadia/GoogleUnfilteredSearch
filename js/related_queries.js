@@ -20,6 +20,7 @@ exports.renderRelatedQueries = (data) => {
   // Update
   selection
     .html((d) => `${d[0]} &#9679; ${d[1]}`)
+    .style('background-color', (d) => `rgba(0, 0, 244, ${spanOpacityScale(d[1])})`);
 
   // Enter
   selection.enter()

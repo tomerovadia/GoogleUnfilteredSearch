@@ -160,7 +160,6 @@ form.on('submit', function() {
   var keyword = this.querySelector('#keyword-input').value;
   fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
-
 });
 
 
