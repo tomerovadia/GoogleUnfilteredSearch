@@ -153,9 +153,12 @@ exports.createCirclesSimulation = (svg, data, factors) => {
 
   const circleGroups = renderCircles(svg, data, factors);
 
+
   const ticked = () => {
     circleGroups
-      .attr('transform', (d) => "translate(" + d.x + "," + d.y + ")")
+      .attr('transform', (d) => {
+        return "translate(" + d.x + "," + d.y + ")"
+      })
   };
 
   simulation.nodes(data)

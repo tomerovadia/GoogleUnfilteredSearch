@@ -161,7 +161,6 @@ form.on('submit', function() {
   fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
 
-  console.log(d3.select('#keyword-container'));
 });
 
 
@@ -173,3 +172,11 @@ positionRadioInputs.on('change', function() {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });
+
+
+
+const keywordText = d3.select('#keyword-text');
+
+keywordText.on('click', function (d) {
+  window.open(`https://www.google.com/#q=${this.innerHTML}`);
+})

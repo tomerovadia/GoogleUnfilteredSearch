@@ -17124,8 +17124,6 @@ form.on('submit', function () {
   var keyword = this.querySelector('#keyword-input').value;
   fetchNewDataAndUpdate(keyword);
   this.querySelector('#keyword-input').value = ''; // clear input
-
-  console.log(d3.select('#keyword-container'));
 });
 
 var positionRadioInputs = d3.selectAll('.position-radio-input');
@@ -17133,6 +17131,12 @@ var positionRadioInputs = d3.selectAll('.position-radio-input');
 positionRadioInputs.on('change', function () {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+});
+
+var keywordText = d3.select('#keyword-text');
+
+keywordText.on('click', function (d) {
+  window.open('https://www.google.com/#q=' + this.innerHTML);
 });
 
 /***/ })

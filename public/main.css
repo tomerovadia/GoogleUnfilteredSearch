@@ -98,6 +98,7 @@ svg {
   height: 35px;
   width: 210px;
   font-size: 18px;
+  padding: 0 7px;
 }
 
 #query-form input[type=submit] {
@@ -145,4 +146,5 @@ svg {
   text-align: center;
   width: 100%;
   font-size: 40px;
+  cursor: pointer;
 }
