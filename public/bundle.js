@@ -16996,16 +16996,10 @@ var fetchInterestByRegionAndUpdate = function fetchInterestByRegionAndUpdate(key
 };
 
 var fetchRelatedQueriesAndUpdate = function fetchRelatedQueriesAndUpdate(keyword) {
-  ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
+  return ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
     console.log('related-queries', results);
-
     RelatedQueriesFunctions.renderRelatedQueries(results);
-  }).then(function () {
-    return d3.select('#related-queries-loading-gif-container').style('display', 'none');
-  }) // hide replated queries loading gif
-  .then(function () {
-    return d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
-  }); // show related queries spans
+  });
 };
 
 var dimSVG = function dimSVG() {
@@ -17024,8 +17018,16 @@ var showRelatedQueriesLoadingGif = function showRelatedQueriesLoadingGif() {
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
 };
 
+var hideRelatedQueriesLoadingGif = function hideRelatedQueriesLoadingGif() {
+  d3.select('#related-queries-loading-gif-container').style('display', 'none');
+};
+
 var hideRelatedQueriesSpans = function hideRelatedQueriesSpans() {
   d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+};
+
+var showRelatedQueriesSpans = function showRelatedQueriesSpans() {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
 };
 
 var fetchNewDataAndUpdate = exports.fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
@@ -17040,7 +17042,10 @@ var fetchNewDataAndUpdate = exports.fetchNewDataAndUpdate = function fetchNewDat
   showRelatedQueriesLoadingGif();
   hideRelatedQueriesSpans();
 
-  fetchRelatedQueriesAndUpdate(keyword);
+  fetchRelatedQueriesAndUpdate(keyword).then(function () {
+    hideRelatedQueriesLoadingGif();
+    showRelatedQueriesSpans();
+  });
 };
 
 var form = d3.select('#query-form');

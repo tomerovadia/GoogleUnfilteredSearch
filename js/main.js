@@ -42,6 +42,8 @@ const prepareDataset = (results) => {
   return dataset;
 };
 
+
+
 // Initial factors
 const factors = {position: 'geography'};
 
@@ -60,14 +62,11 @@ const fetchInterestByRegionAndUpdate = (keyword) => {
 
 
 const fetchRelatedQueriesAndUpdate = (keyword) => {
-  ApiUtil.fetchRelatedQueries(keyword)
+  return ApiUtil.fetchRelatedQueries(keyword)
     .then((results) => {
       console.log('related-queries', results);
-
       RelatedQueriesFunctions.renderRelatedQueries(results);
-    })
-    .then(() => d3.select('#related-queries-loading-gif-container').style('display', 'none')) // hide replated queries loading gif
-    .then(() => d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block')); // show related queries spans
+    });
 }
 
 
@@ -91,8 +90,16 @@ const showRelatedQueriesLoadingGif = () => {
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
 }
 
+const hideRelatedQueriesLoadingGif = () => {
+  d3.select('#related-queries-loading-gif-container').style('display', 'none');
+}
+
 const hideRelatedQueriesSpans = () => {
   d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+}
+
+const showRelatedQueriesSpans = () => {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
 }
 
 
@@ -110,7 +117,10 @@ export const fetchNewDataAndUpdate = (keyword) => {
   showRelatedQueriesLoadingGif();
   hideRelatedQueriesSpans();
 
-  fetchRelatedQueriesAndUpdate(keyword);
+  fetchRelatedQueriesAndUpdate(keyword).then(() => {
+    hideRelatedQueriesLoadingGif();
+    showRelatedQueriesSpans();
+  });
 };
 
 
