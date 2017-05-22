@@ -42,54 +42,75 @@ const prepareDataset = (results) => {
   return dataset;
 };
 
-
-// window.createCirclesSimulation = CircleFunctions.createCirclesSimulation;
-// window.svg = svg;
-// window.states = states;
-// window.fetchTopQueriesByState = ApiUtil.fetchTopQueriesByState;
-
-
-
 // Initial factors
 const factors = {position: 'geography'};
-
-
 
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 
-
-
-export const fetchNewDataAndUpdate = (keyword) => {
-
-  d3.select('#keyword-text').style('display', 'block').html(keyword);
-
-  // Cover SVG with transparent white overlay and loading gif
-  svg.append('g')
-    .attr('id', 'svg-modal-g')
-      .append('rect')
-      .attr('id', 'svg-modal')
-
-  ApiUtil.fetchInterestByRegion(keyword).then((results) => {
+const fetchInterestByRegionAndUpdate = (keyword) => {
+  return ApiUtil.fetchInterestByRegion(keyword).then((results) => {
       console.log('interest-by-region', results);
       const dataset = prepareDataset(results);
       CircleFunctions.createCirclesSimulation(svg, dataset, factors);
-  })
-    .then(() => svg.select('#svg-modal-g').remove());
+  });
+}
 
 
-  d3.select('#related-queries-div').style('display', 'block');
-  d3.select('#related-queries-loading-gif-container').style('display', 'block');
-  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
 
+
+const fetchRelatedQueriesAndUpdate = (keyword) => {
   ApiUtil.fetchRelatedQueries(keyword)
     .then((results) => {
       console.log('related-queries', results);
 
       RelatedQueriesFunctions.renderRelatedQueries(results);
     })
-    .then(() => d3.select('#related-queries-loading-gif-container').style('display', 'none'))
-    .then(() => d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block'));
+    .then(() => d3.select('#related-queries-loading-gif-container').style('display', 'none')) // hide replated queries loading gif
+    .then(() => d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block')); // show related queries spans
+}
+
+
+const dimSVG = () => {
+  svg.append('g')
+    .attr('id', 'svg-modal-g')
+      .append('rect')
+      .attr('id', 'svg-modal')
+}
+
+const undimSVG = () => {
+  svg.select('#svg-modal-g').remove();
+}
+
+
+const showRelatedQueries = () => {
+  d3.select('#related-queries-div').style('display', 'block');
+}
+
+const showRelatedQueriesLoadingGif = () => {
+  d3.select('#related-queries-loading-gif-container').style('display', 'block');
+}
+
+const hideRelatedQueriesSpans = () => {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+}
+
+
+
+
+export const fetchNewDataAndUpdate = (keyword) => {
+
+  d3.select('#keyword-text').style('display', 'block').html(keyword); // display keyword text
+
+  dimSVG();
+
+  fetchInterestByRegionAndUpdate(keyword).then(undimSVG);
+
+  showRelatedQueries();
+  showRelatedQueriesLoadingGif();
+  hideRelatedQueriesSpans();
+
+  fetchRelatedQueriesAndUpdate(keyword);
 };
 
 
