@@ -16985,6 +16985,7 @@ var prepareDataset = function prepareDataset(results) {
 // Initial factors
 var factors = { position: 'geography' };
 
+// Initial render
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 var fetchInterestByRegionAndUpdate = function fetchInterestByRegionAndUpdate(keyword) {
@@ -17033,6 +17034,8 @@ var showRelatedQueriesSpans = function showRelatedQueriesSpans() {
 var displayKeywordText = function displayKeywordText(keyword) {
   d3.select('#keyword-text').style('display', 'block').html(keyword);
 };
+
+// Primary method for executing a new query
 
 var fetchNewDataAndUpdate = exports.fetchNewDataAndUpdate = function fetchNewDataAndUpdate(keyword) {
 
@@ -17109,12 +17112,13 @@ var createScale = function createScale(data, factor, range) {
 var calculateCircleColor = function calculateCircleColor(d, factors) {
   if (factors.position === 'president2016') {
 
-    if (d.president2016 === 0) {
-      return 'blue';
-    } else if (d.president2016 === 2) {
-      return 'red';
-    } else {
-      return 'rgb(251, 188, 5)';
+    switch (d.president2016) {
+      case 0:
+        return 'blue';
+      case 2:
+        return 'red';
+      default:
+        return 'rgb(251, 188, 5)';
     }
   } else {
 
@@ -17134,15 +17138,15 @@ var renderCircles = function renderCircles(svg, data, factors) {
   });
 
   var enterCircles = function enterCircles() {
-    var selectionEnterGroups = selection.enter().append('g').attr('class', 'circle-g');
+    var selectionEnterGroup = selection.enter().append('g').attr('class', 'circle-g');
 
-    selectionEnterGroups.append('circle').transition().style('fill', function (d) {
+    selectionEnterGroup.append('circle').transition().style('fill', function (d) {
       return calculateCircleColor(d, factors);
     }).style('stroke', 'black').attr('r', function (d) {
       return Math.sqrt(scales.areaScale(d.value) / Math.PI);
     });
 
-    selectionEnterGroups.append('text').text(function (d) {
+    selectionEnterGroup.append('text').text(function (d) {
       return d.name;
     }).style('font-family', 'Arial').style('fill', 'white').attr('x', function (d) {
       return -1 * scales.textSizeScale(d.value) / 1.5;
