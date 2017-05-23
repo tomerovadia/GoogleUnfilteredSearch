@@ -6,8 +6,8 @@
 
 __Google Unfiltered.News__ is an interactive interface for exploring what's on the mind of others in the country.
 
-This project is inspired by [Alphabet's Unfiltered.News](https://unfiltered.news)
-Â
+This project is inspired by [Alphabet's Unfiltered.News](https://unfiltered.news).
+
 ## Technology
 
 This application utilizes a [Google Trends API](https://www.npmjs.com/package/google-trends-api) made available as an npm package. It provides four methods:
