@@ -114,7 +114,7 @@ const renderCircles = (svg, data, factors) => {
   };
 
 
-  
+
 
   const exitCircles = () => {
     selection.exit().transition().remove();
@@ -150,12 +150,23 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   simulation.restart();
 
   // Determine position of the circles
-  if(factors.position == 'geography'){
-    applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
-  } else if(factors.position == 'president2016') {
-    const groupScale = createScale(data, 'president2016', horizontalRange);
-    applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
-  }
+
+  switch(factors.position){
+    case 'geography':
+      applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
+      break;
+    case 'president2016':
+      const groupScale = createScale(data, 'president2016', horizontalRange);
+      applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
+      break;
+  };
+
+  // if(factors.position == 'geography'){
+  //   applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
+  // } else if(factors.position == 'president2016') {
+  //   const groupScale = createScale(data, 'president2016', horizontalRange);
+  //   applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
+  // }
 
   // Prevent circles from overlapping
   simulation
