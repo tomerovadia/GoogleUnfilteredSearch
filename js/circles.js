@@ -1,9 +1,19 @@
 const d3 = require('d3');
 
+// Define constants
 const horizontalRange = [200, 1050];
 const verticalRange = [150, 800];
 const bubbleAreaRange = [150, 10000];
 const textSizeRange = [8, 18];
+
+
+const getMinMax = (data, factor) => {
+  const values = Object.keys(data).map((key) => data[key][factor]);
+  const min = Math.min.apply(null, values);
+  const max = Math.max.apply(null, values);
+
+  return [min, max];
+}
 
 
 
@@ -17,23 +27,12 @@ const lonScale = d3.scaleLinear()
                     .range(horizontalRange)
 
 
-
-const getMinMax = (data, factor) => {
-
-  const values = Object.keys(data).map((key) => data[key][factor]);
-
-  const min = Math.min.apply(null, values);
-  const max = Math.max.apply(null, values);
-
-  return [min, max];
-}
-
-
 const createScale = (data, factor, range) => {
   return d3.scaleLinear()
           .domain(getMinMax(data, factor))
           .range(range)
 }
+
 
 const calculateCircleColor = (d, factors) => {
   if(factors.position === 'president2016'){
@@ -73,8 +72,7 @@ const renderCircles = (svg, data, factors) => {
                      .data(data, (d) => d.name)
 
 
-
-
+ // Enter helper
  const enterCircles = () => {
    let selectionEnterGroup = selection.enter()
                                       .append('g')
@@ -98,6 +96,7 @@ const renderCircles = (svg, data, factors) => {
 
 
 
+ // Update helper
   const updateCircles = () => {
 
     svg.selectAll('.circle-g').selectAll('circle')
@@ -114,21 +113,22 @@ const renderCircles = (svg, data, factors) => {
   };
 
 
-
-
+  // Exit helper
   const exitCircles = () => {
     selection.exit().transition().remove();
   };
-
 
 
   exitCircles(selection.exit(), scales);
   updateCircles();
   enterCircles(selection.enter(), scales);
 
-  return svg.selectAll('.circle-g');
-
 };
+
+
+
+
+
 
 
 
@@ -140,8 +140,10 @@ const applyXYForces = (simulation, xScale, yScale, xFactor, yFactor) => {
 
 
 
-exports.createCirclesSimulation = (svg, data, factors) => {
 
+
+// Main function for creating circles visualization and simulation
+exports.createCirclesSimulation = (svg, data, factors) => {
 
   const areaScale = createScale(data, 'value', bubbleAreaRange);
 
@@ -149,8 +151,8 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   simulation.velocityDecay(0.4); // Prevent circles from spazing
   simulation.restart();
 
-  // Determine position of the circles
 
+  // Determine position of the circles
   switch(factors.position){
     case 'geography':
       applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
@@ -161,20 +163,6 @@ exports.createCirclesSimulation = (svg, data, factors) => {
       break;
   };
 
-  // if(factors.position == 'geography'){
-  //   applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
-  // } else if(factors.position == 'president2016') {
-  //   const groupScale = createScale(data, 'president2016', horizontalRange);
-  //   applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
-  // }
-
-  // Prevent circles from overlapping
-  simulation
-    .force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) );
-
-  const circleGroups = renderCircles(svg, data, factors);
-
-
   const ticked = () => {
     svg.selectAll('.circle-g')
       .attr('transform', (d) => {
@@ -183,10 +171,9 @@ exports.createCirclesSimulation = (svg, data, factors) => {
       })
   };
 
-  simulation.nodes(data)
-    .on("tick", ticked);
+  simulation.nodes(data).on("tick", ticked);
+  simulation.force('collide', d3.forceCollide((d) => Math.sqrt( areaScale(d.value) / Math.PI ) + 2 ) ); // Prevent circles from overlapping
 
-
-  return circleGroups;
+  renderCircles(svg, data, factors);
 
 };

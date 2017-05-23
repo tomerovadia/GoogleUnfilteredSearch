@@ -17084,26 +17084,25 @@ d3.select('#keyword-text').on('click', function (d) {
 
 var d3 = __webpack_require__(0);
 
+// Define constants
 var horizontalRange = [200, 1050];
 var verticalRange = [150, 800];
 var bubbleAreaRange = [150, 10000];
 var textSizeRange = [8, 18];
 
-var latScale = d3.scaleLinear().domain([47.528912, 27.766279]).range(verticalRange);
-
-var lonScale = d3.scaleLinear().domain([-150, -69.381927]).range(horizontalRange);
-
 var getMinMax = function getMinMax(data, factor) {
-
   var values = Object.keys(data).map(function (key) {
     return data[key][factor];
   });
-
   var min = Math.min.apply(null, values);
   var max = Math.max.apply(null, values);
 
   return [min, max];
 };
+
+var latScale = d3.scaleLinear().domain([47.528912, 27.766279]).range(verticalRange);
+
+var lonScale = d3.scaleLinear().domain([-150, -69.381927]).range(horizontalRange);
 
 var createScale = function createScale(data, factor, range) {
   return d3.scaleLinear().domain(getMinMax(data, factor)).range(range);
@@ -17137,6 +17136,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
     return d.name;
   });
 
+  // Enter helper
   var enterCircles = function enterCircles() {
     var selectionEnterGroup = selection.enter().append('g').attr('class', 'circle-g');
 
@@ -17157,6 +17157,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
     });
   };
 
+  // Update helper
   var updateCircles = function updateCircles() {
 
     svg.selectAll('.circle-g').selectAll('circle').data(data, function (d) {
@@ -17178,6 +17179,7 @@ var renderCircles = function renderCircles(svg, data, factors) {
     });
   };
 
+  // Exit helper
   var exitCircles = function exitCircles() {
     selection.exit().transition().remove();
   };
@@ -17185,8 +17187,6 @@ var renderCircles = function renderCircles(svg, data, factors) {
   exitCircles(selection.exit(), scales);
   updateCircles();
   enterCircles(selection.enter(), scales);
-
-  return svg.selectAll('.circle-g');
 };
 
 var applyXYForces = function applyXYForces(simulation, xScale, yScale, xFactor, yFactor) {
@@ -17197,6 +17197,7 @@ var applyXYForces = function applyXYForces(simulation, xScale, yScale, xFactor, 
   }).strength(0.4));
 };
 
+// Main function for creating circles visualization and simulation
 exports.createCirclesSimulation = function (svg, data, factors) {
 
   var areaScale = createScale(data, 'value', bubbleAreaRange);
@@ -17206,7 +17207,6 @@ exports.createCirclesSimulation = function (svg, data, factors) {
   simulation.restart();
 
   // Determine position of the circles
-
   switch (factors.position) {
     case 'geography':
       applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
@@ -17217,20 +17217,6 @@ exports.createCirclesSimulation = function (svg, data, factors) {
       break;
   };
 
-  // if(factors.position == 'geography'){
-  //   applyXYForces(simulation, lonScale, latScale, 'lon', 'lat');
-  // } else if(factors.position == 'president2016') {
-  //   const groupScale = createScale(data, 'president2016', horizontalRange);
-  //   applyXYForces(simulation, groupScale, latScale, 'president2016', 'lat');
-  // }
-
-  // Prevent circles from overlapping
-  simulation.force('collide', d3.forceCollide(function (d) {
-    return Math.sqrt(areaScale(d.value) / Math.PI) + 2;
-  }));
-
-  var circleGroups = renderCircles(svg, data, factors);
-
   var ticked = function ticked() {
     svg.selectAll('.circle-g').attr('transform', function (d) {
       if (d === undefined) debugger;
@@ -17239,8 +17225,11 @@ exports.createCirclesSimulation = function (svg, data, factors) {
   };
 
   simulation.nodes(data).on("tick", ticked);
+  simulation.force('collide', d3.forceCollide(function (d) {
+    return Math.sqrt(areaScale(d.value) / Math.PI) + 2;
+  })); // Prevent circles from overlapping
 
-  return circleGroups;
+  renderCircles(svg, data, factors);
 };
 
 /***/ }),
