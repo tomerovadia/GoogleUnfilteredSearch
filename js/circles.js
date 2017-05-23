@@ -38,12 +38,13 @@ const createScale = (data, factor, range) => {
 const calculateCircleColor = (d, factors) => {
   if(factors.position === 'president2016'){
 
-    if(d.president2016 === 0){
-      return 'blue';
-    } else if(d.president2016 === 2){
-      return 'red';
-    } else {
-      return 'rgb(251, 188, 5)';
+    switch(d.president2016){
+      case 0:
+        return 'blue';
+      case 2:
+        return 'red';
+      default:
+        return 'rgb(251, 188, 5)';
     }
 
   } else {
@@ -71,18 +72,21 @@ const renderCircles = (svg, data, factors) => {
   let selection = svg.selectAll('.circle-g')
                      .data(data, (d) => d.name)
 
+
+
+
  const enterCircles = () => {
-   let selectionEnterGroups = selection.enter()
+   let selectionEnterGroup = selection.enter()
                                       .append('g')
                                       .attr('class','circle-g');
 
-   selectionEnterGroups.append('circle')
+   selectionEnterGroup.append('circle')
      .transition()
      .style('fill', (d) => calculateCircleColor(d, factors))
      .style('stroke', 'black')
      .attr('r', (d) => Math.sqrt( (scales.areaScale(d.value) / Math.PI) ));
 
-   selectionEnterGroups.append('text')
+   selectionEnterGroup.append('text')
      .text((d) => d.name)
      .style('font-family', 'Arial')
      .style('fill', 'white')
@@ -90,6 +94,9 @@ const renderCircles = (svg, data, factors) => {
      .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
      .style('font-size', (d) => scales.textSizeScale(d.value));
  };
+
+
+
 
   const updateCircles = () => {
 
@@ -105,6 +112,9 @@ const renderCircles = (svg, data, factors) => {
       .attr('y', (d) => (scales.textSizeScale(d.value)/2.4))
       .style('font-size', (d) => scales.textSizeScale(d.value));
   };
+
+
+  
 
   const exitCircles = () => {
     selection.exit().transition().remove();

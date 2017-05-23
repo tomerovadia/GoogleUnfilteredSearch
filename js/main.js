@@ -48,7 +48,11 @@ const prepareDataset = (results) => {
 // Initial factors
 const factors = {position: 'geography'};
 
+
+// Initial render
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+
+
 
 
 const fetchInterestByRegionAndUpdate = (keyword) => {
@@ -67,6 +71,10 @@ const fetchRelatedQueriesAndUpdate = (keyword) => {
       RelatedQueriesFunctions.renderRelatedQueries(results);
     });
 };
+
+
+
+
 
 
 const dimSVG = () => {
@@ -107,6 +115,7 @@ const displayKeywordText = (keyword) => {
 
 
 
+// Primary method for executing a new query
 
 export const fetchNewDataAndUpdate = (keyword) => {
 
