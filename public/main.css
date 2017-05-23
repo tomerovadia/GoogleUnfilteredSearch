@@ -74,6 +74,7 @@ svg {
   position: relative;
   top: -3px;
   color: rgba(0,0,0,0.87);
+  z-index: -1;
 }
 
 #query-form {
@@ -146,5 +147,83 @@ svg {
   text-align: center;
   width: 100%;
   font-size: 40px;
+  cursor: pointer;
+}
+
+#modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-body {
+  background-color: white;
+  color: rgba(0,0,0,0.87);
+  height: 650px;
+  width: 1000px;
+  border-radius: 3px;
+  border: 1px solid black;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modal-body a {
+  color: rgba(0,0,0,0.87);
+  font-weight: 600;
+}
+
+.modal-body p:first-child {
+  margin-top: 0;
+}
+
+.modal-body p {
+  margin: 15px 0;
+  line-height: 1.5;
+  font-size: 18px;
+}
+
+.modal-body img {
+  display: block;
+  margin: 0 auto;
+}
+
+#bubbles-resizing-gif {
+  width: 300px;
+}
+
+#related-queries-gif {
+  width: 880px;
+}
+
+
+
+.modal-body img {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  z-index: 2;
+}
+
+.modal-buttons a {
+  border: 1px solid black;
+  padding: 7px 15px;
+  border-radius: 3px;
+  background-color: #35414B;
+  color: white;
   cursor: pointer;
 }
