@@ -1,10 +1,10 @@
-# Google Unfiltered.News
+# Google Unfiltered.Search
 
 [Live Link](http://google-unfiltered-search.herokuapp.com/)
 
 ## Background
 
-__Google Unfiltered.News__ is an interactive interface for exploring what's on the mind of others in the country.
+__Google Unfiltered.Search__ is an interactive interface for exploring what's on the mind of others in the country.
 
 This project is inspired by [Alphabet's Unfiltered.News](https://unfiltered.news).
 
