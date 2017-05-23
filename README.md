@@ -1,6 +1,6 @@
 # Google Unfiltered.News
 
-[Live Link](http://google-trends-explorer.herokuapp.com/)
+[Live Link](http://google-unfiltered-search.herokuapp.com/)
 
 ## Background
 
