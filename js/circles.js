@@ -116,7 +116,6 @@ const renderCircles = (svg, data, factors) => {
   updateCircles();
   enterCircles(selection.enter(), scales);
 
-  console.log(svg.selectAll('.circle-g').data())
   return svg.selectAll('.circle-g');
 
 };

@@ -44,6 +44,7 @@ const prepareDataset = (results) => {
 
 
 
+
 // Initial factors
 const factors = {position: 'geography'};
 
@@ -59,15 +60,13 @@ const fetchInterestByRegionAndUpdate = (keyword) => {
 }
 
 
-
-
 const fetchRelatedQueriesAndUpdate = (keyword) => {
   return ApiUtil.fetchRelatedQueries(keyword)
     .then((results) => {
       console.log('related-queries', results);
       RelatedQueriesFunctions.renderRelatedQueries(results);
     });
-}
+};
 
 
 const dimSVG = () => {
@@ -75,39 +74,45 @@ const dimSVG = () => {
     .attr('id', 'svg-modal-g')
       .append('rect')
       .attr('id', 'svg-modal')
-}
+};
 
 const undimSVG = () => {
   svg.select('#svg-modal-g').remove();
-}
+};
 
 
 const showRelatedQueries = () => {
   d3.select('#related-queries-div').style('display', 'block');
-}
+};
 
 const showRelatedQueriesLoadingGif = () => {
   d3.select('#related-queries-loading-gif-container').style('display', 'block');
-}
+};
 
 const hideRelatedQueriesLoadingGif = () => {
   d3.select('#related-queries-loading-gif-container').style('display', 'none');
-}
+};
 
 const hideRelatedQueriesSpans = () => {
   d3.select('#related-queries-div').selectAll('span').style('display', 'none');
-}
+};
 
 const showRelatedQueriesSpans = () => {
   d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
-}
+};
+
+const displayKeywordText = (keyword) => {
+  d3.select('#keyword-text').style('display', 'block').html(keyword);
+};
 
 
 
 
 export const fetchNewDataAndUpdate = (keyword) => {
 
-  d3.select('#keyword-text').style('display', 'block').html(keyword); // display keyword text
+  console.log(`\nReceived keyword ${keyword}`);
+
+  displayKeywordText(keyword);
 
   dimSVG();
 
@@ -125,11 +130,9 @@ export const fetchNewDataAndUpdate = (keyword) => {
 
 
 
+// Event Listeners
 
-
-const form = d3.select('#query-form');
-
-form.on('submit', function() {
+d3.select('#query-form').on('submit', function() {
   d3.event.preventDefault();
   var keyword = this.querySelector('#keyword-input').value;
   fetchNewDataAndUpdate(keyword);
@@ -137,19 +140,12 @@ form.on('submit', function() {
 });
 
 
-
-
-const positionRadioInputs = d3.selectAll('.position-radio-input');
-
-positionRadioInputs.on('change', function() {
+d3.selectAll('.position-radio-input').on('change', function() {
   factors.position = this.value;
   CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });
 
 
-
-const keywordText = d3.select('#keyword-text');
-
-keywordText.on('click', function (d) {
+d3.select('#keyword-text').on('click', function (d) {
   window.open(`https://www.google.com/#q=${this.innerHTML}`);
-})
+});
