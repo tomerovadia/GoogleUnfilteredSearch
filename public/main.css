@@ -15,7 +15,7 @@ h3 {
   color: rgba(0,0,0,0.87);
 }
 
-.no-related-queries-text {
+#no-related-queries-text {
   color: #bdbdbd;
   font-weight: normal;
   font-size: 14px;
@@ -64,6 +64,10 @@ svg {
   justify-content: center;
 }
 
+#header a {
+  text-decoration: none;
+}
+
 #google-logo {
   height: 50px;
   margin-right: 10px;
@@ -75,6 +79,21 @@ svg {
   top: -3px;
   color: rgba(0,0,0,0.87);
 }
+
+#about-links-div {
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+#about-links-div a {
+  padding: 0 20px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
 
 #query-form {
   margin: 10px;
@@ -88,6 +107,10 @@ svg {
   font-size: 18px;
   margin: 0 10px;
   color: rgba(0,0,0,0.87);
+}
+
+.position-radio-input {
+  margin: 0 6px;
 }
 
 #query-form input[type=text] {
@@ -112,6 +135,26 @@ svg {
   cursor: pointer;
 }
 
+#consider-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid gray;
+  width: 80%;
+  margin: 0 auto;
+  padding: 0 4px;
+}
+
+#consider-spans {
+  padding: 0 6px;
+}
+
+#consider-div img {
+  height: 15px;
+  margin: 0 15px;
+  cursor: pointer;
+}
+
 #related-queries-div {
   display: none;
 }
@@ -126,7 +169,8 @@ svg {
   height: 75px;
 }
 
-#related-queries-div span {
+#related-queries-div span,
+#consider-div span {
   display: inline-block;
   border: 1px solid black;
   padding: 5px 10px;
@@ -149,19 +193,10 @@ svg {
   cursor: pointer;
 }
 
-#bubbles-resizing-gif {
-  width: 300px;
-}
-
-#related-queries-gif {
-  width: 880px;
-}
 
 
 
-
-
-
+/* MODAL */
 
 #modal {
   position: fixed;
@@ -169,68 +204,76 @@ svg {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 5;
 }
 
-.modal-body {
+#modal-body {
   background-color: white;
-  color: rgba(0,0,0,0.87);
-  height: 650px;
-  width: 1000px;
-  border-radius: 3px;
   border: 1px solid black;
+  border-radius: 3px;
+  width: 1000px;
+}
+
+#modal-contents {
+  color: rgba(0,0,0,0.87);
   padding: 30px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/*
-.modal-body a {
-  color: rgba(0,0,0,0.87);
-  font-weight: 600;
-}
-
-.modal-body p:first-child {
-  margin-top: 0;
-}
-
-.modal-body p {
-  margin: 15px 0;
-  line-height: 1.5;
-  font-size: 18px;
-}
-
-.modal-body img {
-  display: block;
-  margin: 0 auto;
-}*/
-
-
-
-/*.modal-body img {
-  width: 300px;
-  display: block;
-  margin: 0 auto;
-}
-
-.modal-buttons {
+#modal-contents-header {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0;
-  z-index: 2;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal-buttons a {
-  border: 1px solid black;
-  padding: 7px 15px;
-  border-radius: 3px;
+#modal-contents-header #google-logo {
+  height: 40px;
+}
+
+#modal-contents-header .header-text {
+  font-size: 40px;
+}
+
+#modal-gif {
+  margin: 0 auto;
+  width: 700px;
+  display: block;
+  border: 1px solid gray;
+  margin-top: 10px;
+}
+
+#explore-visualization-div {
+  height: 50px;
   background-color: #35414B;
   color: white;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-}*/
+}
+
+#explore-visualization-div span {
+  margin-left: 15px;
+}
+
+#modal-close-div {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#modal-close-div img {
+  height: 15px;
+  cursor: pointer;
+}
+
+#modal p {
+  margin: 8px 0;
+  line-height: 1.5;
+  font-size: 15px;
+}

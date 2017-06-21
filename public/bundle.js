@@ -17075,6 +17075,42 @@ d3.select('#keyword-text').on('click', function (d) {
   window.open('https://www.google.com/#q=' + this.innerHTML);
 });
 
+// Panel functionality
+
+function hideModal() {
+  $('#modal').css('display', 'none');
+}
+
+$('#explore-visualization-div').on('click', function (e) {
+  hideModal();
+});
+
+$('#modal-close-div').on('click', function (e) {
+  hideModal();
+});
+
+$('#modal').on('click', function (e) {
+  hideModal();
+});
+
+$('#modal-body').on('click', function (e) {
+  e.stopPropagation();
+});
+
+function hideConsiderBox() {
+  $('#consider-div').css('display', 'none');
+}
+
+$('.consider-span').on('click', function (e) {
+  var keyword = e.target.innerText;
+  $('#keyword-input').val(keyword);
+  fetchNewDataAndUpdate(keyword);
+});
+
+$('#consider-x').on('click', function (e) {
+  hideConsiderBox();
+});
+
 // const firstModalContents = "";
 // const secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
 // const thirdModalContents = "";
@@ -17309,9 +17345,9 @@ exports.renderRelatedQueries = function (data) {
   });
 
   if (data.length === 0) {
-    d3.select('.no-related-queries-text').style('display', 'block');
+    d3.select('#no-related-queries-text').style('display', 'block');
   } else {
-    d3.select('.no-related-queries-text').style('display', 'none');
+    d3.select('#no-related-queries-text').style('display', 'none');
   }
 };
 

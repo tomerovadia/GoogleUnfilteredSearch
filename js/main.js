@@ -160,6 +160,50 @@ d3.select('#keyword-text').on('click', function (d) {
 });
 
 
+// Panel functionality
+
+function hideModal(){
+  $('#modal').css('display', 'none');
+}
+
+$('#explore-visualization-div').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal-close-div').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal-body').on('click', (e) => {
+  e.stopPropagation();
+})
+
+function hideConsiderBox(){
+  $('#consider-div').css('display', 'none');
+}
+
+$('.consider-span').on('click', (e) => {
+  const keyword = e.target.innerText;
+  $('#keyword-input').val(keyword);
+  fetchNewDataAndUpdate(keyword);
+})
+
+$('#consider-x').on('click', (e) =>{
+  hideConsiderBox();
+})
+
+
+
+
+
+
+
+
+
 
 
 
