@@ -8,11 +8,36 @@
   </head>
   <body>
 
+    <div id='modal'>
+      <div id='modal-body'>
+        <div id='modal-contents'>
+          <div id='modal-close-div'>
+            <img src='./x.png'>
+          </div>
+          <div id='modal-contents-header'><img id='google-logo' src='./google_logo.png'><span class='header-text'>Unfiltered.Search</span></div>
+            <p><b>Unfiltered.Search</b> helps you explore what's on the minds of others across the country. This app is inspired by <a href='http://unfiltered.news'>Jigsaw's Unfiltered.News</a>.</p>
+            <p><b>Basics:</b> Each circle represents a state. Type a keyword to resize the states by how much its people search for that keyword (over the last 24 hours).</p>
+            <p><b>Positioning:</b> Toggle between <i>Geography</i> and <i>2016 Election Outcome</i> to position the states based on these factors.</p>
+            <p><b>Related queries:</b> Searches related to your keyword will appear, with numbers indicating their relatedness.</p>
+          <img id='modal-gif' src='./unfiltered_search_gif.gif'>
+        </div>
+        <div id='explore-visualization-div'>
+          <span>EXPLORE THE VISUALIZATION</span>
+        </div>
+      </div>
+    </div>
+
+
     <div id='selection-panel'>
 
-      <div id='header'>
-        <img id='google-logo' src='./google_logo.png'>
-        <span class='header-text'>Unfiltered Search</span>
+      <div id='header' >
+        <a href='/'><img id='google-logo' src='./google_logo.png'></a>
+        <a href='/'><span class='header-text'>Unfiltered.Search</span></a>
+      </div>
+
+      <div id='about-links-div'>
+        <a target='_blank' href='https://github.com/tomerovadia/GoogleUnfilteredSearch'>About</a>
+        <a target='_blank' href='https://tomerovadia.github.io'>More By Tomer</a>
       </div>
 
       <form id="query-form" action="index.html" method="post">
@@ -28,9 +53,25 @@
 
       </form>
 
+      <div id='consider-div'>
+        <div id='consider-spans'>
+          Consider:
+          <span class='consider-span'>horse racing</span>
+          <span class='consider-span'>fishing</span>
+          <span class='consider-span'>cheesesteaks</span>
+          <span class='consider-span'>cheerwine</span>
+          <span class='consider-span'>hunting</span>
+          <span class='consider-span'>alligators</span>
+          <span class='consider-span'>tornados</span>
+          <span class='consider-span'>drug addiction</span>
+          <span class='consider-span'>football</span>
+        </div>
+        <img id='consider-x' src='./x.png'>
+      </div>
+
       <div id='related-queries-div'>
         <h3>Related Queries:</h3>
-        <h4 class='no-related-queries-text'>No related queries.</h4>
+        <h4 id='no-related-queries-text'>No related queries.</h4>
 
         <div id='related-queries-loading-gif-container'>
           <img src='./loading.gif'>

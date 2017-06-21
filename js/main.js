@@ -158,3 +158,77 @@ d3.selectAll('.position-radio-input').on('change', function() {
 d3.select('#keyword-text').on('click', function (d) {
   window.open(`https://www.google.com/#q=${this.innerHTML}`);
 });
+
+
+// Panel functionality
+
+function hideModal(){
+  $('#modal').css('display', 'none');
+}
+
+$('#explore-visualization-div').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal-close-div').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal').on('click', (e) => {
+  hideModal();
+})
+
+$('#modal-body').on('click', (e) => {
+  e.stopPropagation();
+})
+
+function hideConsiderBox(){
+  $('#consider-div').css('display', 'none');
+}
+
+$('.consider-span').on('click', (e) => {
+  const keyword = e.target.innerText;
+  $('#keyword-input').val(keyword);
+  fetchNewDataAndUpdate(keyword);
+})
+
+$('#consider-x').on('click', (e) =>{
+  hideConsiderBox();
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const firstModalContents = "";
+// const secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
+// const thirdModalContents = "";
+//
+// const activateModalButtons = (prevModalContents, nextModalContents) => {
+//   $(`.modal-previous-button`).click(() => {
+//     $('#modal').html(firstModalContents);
+//   });
+//
+//   $(`.modal-next-button`).click(() => {
+//     $('#modal').html(nextModalContents);
+//   });
+// }
+//
+//
+// $('#modal').html(firstModalContents);
+//
+// $('#first-modal-next-button').click(() => {
+//   $('#modal').html(secondModalContents);
+//
+//   activateModalButtons(firstModalContents, thirdModalContents)
+//
+//
+// });
