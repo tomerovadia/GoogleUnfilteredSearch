@@ -16950,8 +16950,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var CircleFunctions = __webpack_require__(2);
 var RelatedQueriesFunctions = __webpack_require__(3);
-var ApiUtil = __webpack_require__(4);
-var Data = __webpack_require__(5);
+var ApiUtil = __webpack_require__(5);
+var Data = __webpack_require__(4);
 var d3 = __webpack_require__(0);
 
 var objectToArray = function objectToArray(object) {
@@ -17075,27 +17075,30 @@ d3.select('#keyword-text').on('click', function (d) {
   window.open('https://www.google.com/#q=' + this.innerHTML);
 });
 
-var firstModalContents = "<div class='modal-body' id='first-modal-contents'><div class='modal-contents'><p><b>Unfiltered.Search</b> helps you explore what's on the minds of others across the country.</p><p>Each circle is a state. Type a keyword to resize the states by how much they search for that keyword.</p><img id='bubbles-resizing-gif' src='./bubbles_resizing.gif'></div><ul class='modal-buttons'><div></div><a id='first-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
-var secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
-var thirdModalContents = "";
-
-var activateModalButtons = function activateModalButtons(prevModalContents, nextModalContents) {
-  $('.modal-previous-button').click(function () {
-    $('#modal').html(firstModalContents);
-  });
-
-  $('.modal-next-button').click(function () {
-    $('#modal').html(nextModalContents);
-  });
-};
-
-$('#modal').html(firstModalContents);
-
-$('#first-modal-next-button').click(function () {
-  $('#modal').html(secondModalContents);
-
-  activateModalButtons(firstModalContents, thirdModalContents);
-});
+// const firstModalContents = "";
+// const secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
+// const thirdModalContents = "";
+//
+// const activateModalButtons = (prevModalContents, nextModalContents) => {
+//   $(`.modal-previous-button`).click(() => {
+//     $('#modal').html(firstModalContents);
+//   });
+//
+//   $(`.modal-next-button`).click(() => {
+//     $('#modal').html(nextModalContents);
+//   });
+// }
+//
+//
+// $('#modal').html(firstModalContents);
+//
+// $('#first-modal-next-button').click(() => {
+//   $('#modal').html(secondModalContents);
+//
+//   activateModalButtons(firstModalContents, thirdModalContents)
+//
+//
+// });
 
 /***/ }),
 /* 2 */
@@ -17319,29 +17322,6 @@ exports.renderRelatedQueries = function (data) {
 "use strict";
 
 
-exports.fetchInterestByRegion = function (keyword) {
-
-  return $.ajax({
-    method: 'get',
-    url: '/interest-by-region?keyword=' + keyword
-  });
-};
-
-exports.fetchRelatedQueries = function (keyword) {
-
-  return $.ajax({
-    method: 'get',
-    url: '/related-queries?keyword=' + keyword
-  });
-};
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 exports.STATES = {
   AL: { lat: 32.806671, lon: -86.791130, value: 52420.07, president2016: 2 },
   AK: { lat: 45, lon: -140, value: 268596.46, president2016: 2 },
@@ -17394,6 +17374,29 @@ exports.STATES = {
   WV: { lat: 38.491226, lon: -80.954453, value: 24230.04, president2016: 2 },
   WI: { lat: 44.268543, lon: -89.616508, value: 65496.38, president2016: 2 },
   WY: { lat: 42.755966, lon: -107.302490, value: 97813.01, president2016: 2 }
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.fetchInterestByRegion = function (keyword) {
+
+  return $.ajax({
+    method: 'get',
+    url: '/interest-by-region?keyword=' + keyword
+  });
+};
+
+exports.fetchRelatedQueries = function (keyword) {
+
+  return $.ajax({
+    method: 'get',
+    url: '/related-queries?keyword=' + keyword
+  });
 };
 
 /***/ })

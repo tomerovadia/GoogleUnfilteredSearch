@@ -74,7 +74,6 @@ svg {
   position: relative;
   top: -3px;
   color: rgba(0,0,0,0.87);
-  z-index: -1;
 }
 
 #query-form {
@@ -150,6 +149,20 @@ svg {
   cursor: pointer;
 }
 
+#bubbles-resizing-gif {
+  width: 300px;
+}
+
+#related-queries-gif {
+  width: 880px;
+}
+
+
+
+
+
+
+
 #modal {
   position: fixed;
   top: 0;
@@ -160,6 +173,7 @@ svg {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 5;
 }
 
 .modal-body {
@@ -175,6 +189,7 @@ svg {
   justify-content: space-between;
 }
 
+/*
 .modal-body a {
   color: rgba(0,0,0,0.87);
   font-weight: 600;
@@ -193,19 +208,11 @@ svg {
 .modal-body img {
   display: block;
   margin: 0 auto;
-}
-
-#bubbles-resizing-gif {
-  width: 300px;
-}
-
-#related-queries-gif {
-  width: 880px;
-}
+}*/
 
 
 
-.modal-body img {
+/*.modal-body img {
   width: 300px;
   display: block;
   margin: 0 auto;
@@ -226,4 +233,4 @@ svg {
   background-color: #35414B;
   color: white;
   cursor: pointer;
-}
+}*/

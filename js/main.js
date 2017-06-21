@@ -159,27 +159,32 @@ d3.select('#keyword-text').on('click', function (d) {
   window.open(`https://www.google.com/#q=${this.innerHTML}`);
 });
 
-const firstModalContents = "<div class='modal-body' id='first-modal-contents'><div class='modal-contents'><p><b>Unfiltered.Search</b> helps you explore what's on the minds of others across the country.</p><p>Each circle is a state. Type a keyword to resize the states by how much they search for that keyword.</p><img id='bubbles-resizing-gif' src='./bubbles_resizing.gif'></div><ul class='modal-buttons'><div></div><a id='first-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
-const secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
-const thirdModalContents = "";
-
-const activateModalButtons = (prevModalContents, nextModalContents) => {
-  $(`.modal-previous-button`).click(() => {
-    $('#modal').html(firstModalContents);
-  });
-
-  $(`.modal-next-button`).click(() => {
-    $('#modal').html(nextModalContents);
-  });
-}
 
 
-$('#modal').html(firstModalContents);
-
-$('#first-modal-next-button').click(() => {
-  $('#modal').html(secondModalContents);
-
-  activateModalButtons(firstModalContents, thirdModalContents)
 
 
-});
+
+// const firstModalContents = "";
+// const secondModalContents = "<div class='modal-body' id='second-modal-contents'><div class='modal-contents'><p>Queries related to your keyword will appear with a number indicating how related they are. Click them to resize the bubbles.</p><img id='related-queries-gif' src='./related_queries.gif'></div><ul class='modal-buttons'><a id='second-modal-previous-button' class='modal-previous-button'>Previous</a><a id='second-modal-next-button' class='modal-next-button'>Next</a></ul></div>";
+// const thirdModalContents = "";
+//
+// const activateModalButtons = (prevModalContents, nextModalContents) => {
+//   $(`.modal-previous-button`).click(() => {
+//     $('#modal').html(firstModalContents);
+//   });
+//
+//   $(`.modal-next-button`).click(() => {
+//     $('#modal').html(nextModalContents);
+//   });
+// }
+//
+//
+// $('#modal').html(firstModalContents);
+//
+// $('#first-modal-next-button').click(() => {
+//   $('#modal').html(secondModalContents);
+//
+//   activateModalButtons(firstModalContents, thirdModalContents)
+//
+//
+// });
