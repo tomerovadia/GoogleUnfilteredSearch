@@ -48,3 +48,23 @@ exports.renderRelatedQueries = (data) => {
   }
 
 };
+
+exports.showRelatedQueries = () => {
+  d3.select('#related-queries-div').style('display', 'block');
+};
+
+exports.showRelatedQueriesLoadingGif = () => {
+  d3.select('#related-queries-loading-gif-container').style('display', 'block');
+};
+
+exports.hideRelatedQueriesLoadingGif = () => {
+  d3.select('#related-queries-loading-gif-container').style('display', 'none');
+};
+
+exports.hideRelatedQueriesSpans = () => {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+};
+
+exports.showRelatedQueriesSpans = () => {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
+};

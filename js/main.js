@@ -1,9 +1,12 @@
 const CircleFunctions = require('./circles');
 const RelatedQueriesFunctions = require('./related_queries');
+const PanelFunctions = require('./panel');
 const ApiUtil = require('../util/api_util');
 const Data = require('./states');
 const d3 = require('d3');
 
+
+// Initialization
 
 const objectToArray = (object) => {
   return Object.keys(object).map((key) => {
@@ -55,27 +58,7 @@ CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
 
 
-const fetchInterestByRegionAndUpdate = (keyword) => {
-  return ApiUtil.fetchInterestByRegion(keyword).then((results) => {
-      console.log('interest-by-region', results);
-      const dataset = prepareDataset(results);
-      CircleFunctions.createCirclesSimulation(svg, dataset, factors);
-  });
-}
-
-
-const fetchRelatedQueriesAndUpdate = (keyword) => {
-  return ApiUtil.fetchRelatedQueries(keyword)
-    .then((results) => {
-      console.log('related-queries', results);
-      RelatedQueriesFunctions.renderRelatedQueries(results);
-    });
-};
-
-
-
-
-
+// Functions modifying visuals
 
 const dimSVG = () => {
   svg.append('g')
@@ -86,27 +69,6 @@ const dimSVG = () => {
 
 const undimSVG = () => {
   svg.select('#svg-modal-g').remove();
-};
-
-
-const showRelatedQueries = () => {
-  d3.select('#related-queries-div').style('display', 'block');
-};
-
-const showRelatedQueriesLoadingGif = () => {
-  d3.select('#related-queries-loading-gif-container').style('display', 'block');
-};
-
-const hideRelatedQueriesLoadingGif = () => {
-  d3.select('#related-queries-loading-gif-container').style('display', 'none');
-};
-
-const hideRelatedQueriesSpans = () => {
-  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
-};
-
-const showRelatedQueriesSpans = () => {
-  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
 };
 
 const displayKeywordText = (keyword) => {
@@ -127,14 +89,34 @@ export const fetchNewDataAndUpdate = (keyword) => {
 
   fetchInterestByRegionAndUpdate(keyword).then(undimSVG);
 
-  showRelatedQueries();
-  showRelatedQueriesLoadingGif();
-  hideRelatedQueriesSpans();
+  RelatedQueriesFunctions.showRelatedQueries();
+  RelatedQueriesFunctions.showRelatedQueriesLoadingGif();
+  RelatedQueriesFunctions.hideRelatedQueriesSpans();
 
   fetchRelatedQueriesAndUpdate(keyword).then(() => {
-    hideRelatedQueriesLoadingGif();
-    showRelatedQueriesSpans();
+    RelatedQueriesFunctions.hideRelatedQueriesLoadingGif();
+    RelatedQueriesFunctions.showRelatedQueriesSpans();
   });
+};
+
+
+// Helper functions for rendering new results
+
+const fetchInterestByRegionAndUpdate = (keyword) => {
+  return ApiUtil.fetchInterestByRegion(keyword).then((results) => {
+      console.log('interest-by-region', results);
+      const dataset = prepareDataset(results);
+      CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+  });
+}
+
+
+const fetchRelatedQueriesAndUpdate = (keyword) => {
+  return ApiUtil.fetchRelatedQueries(keyword)
+    .then((results) => {
+      console.log('related-queries', results);
+      RelatedQueriesFunctions.renderRelatedQueries(results);
+    });
 };
 
 
@@ -154,43 +136,12 @@ d3.selectAll('.position-radio-input').on('change', function() {
   CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });
 
-
+// Execute Google search in new page
 d3.select('#keyword-text').on('click', function (d) {
   window.open(`https://www.google.com/#q=${this.innerHTML}`);
 });
 
 
-// Panel functionality
+// Panel Functionality
 
-function hideModal(){
-  $('#modal').css('display', 'none');
-}
-
-$('#explore-visualization-div').on('click', (e) => {
-  hideModal();
-})
-
-$('#modal-close-div').on('click', (e) => {
-  hideModal();
-})
-
-$('#modal').on('click', (e) => {
-  hideModal();
-})
-
-$('#modal-body').on('click', (e) => {
-  e.stopPropagation();
-})
-
-function hideConsiderBox(){
-  $('#consider-div').css('display', 'none');
-}
-
-$('.consider-span').on('click', (e) => {
-  const keyword = e.target.innerText;
-  fetchNewDataAndUpdate(keyword);
-})
-
-$('#consider-x').on('click', (e) =>{
-  hideConsiderBox();
-})
+PanelFunctions.activatePanelListeners();

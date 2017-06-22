@@ -119,9 +119,9 @@ const renderCircles = (svg, data, factors) => {
   };
 
 
-  exitCircles(selection.exit(), scales);
+  exitCircles();
   updateCircles();
-  enterCircles(selection.enter(), scales);
+  enterCircles();
 
 };
 
@@ -166,7 +166,6 @@ exports.createCirclesSimulation = (svg, data, factors) => {
   const ticked = () => {
     svg.selectAll('.circle-g')
       .attr('transform', (d) => {
-        if(d === undefined) debugger
         return "translate(" + d.x + "," + d.y + ")"
       })
   };

@@ -10,22 +10,15 @@ var app = express();
 // Fomatting results
 
 const formatInterestByRegionResults = (rawResults) => {
-  console.log('rawResults', rawResults);
   const formattedResults = {};
   const parsedResults = JSON.parse(rawResults).default.geoMapData;
 
-  console.log('parsedResults', parsedResults);
-  console.log('parsedResults.length', parsedResults.length);
-
   for(let i=0; i < parsedResults.length; i++){
-    console.log('i', i);
     const rawStateResult = parsedResults[i];
-    console.log('rawStateResult', rawStateResult);
     const state = rawStateResult.geoCode.slice(-2);
     formattedResults[state] = rawStateResult.value[0];
   }
 
-  console.log('formattedResults', formattedResults);
   return formattedResults;
 }
 
@@ -43,14 +36,14 @@ const formatRelatedKeywordsResults = (rawResults) => {
 app.get('/interest-by-region', (req, res) => {
   console.log(`Received interest-by-region request for keyword "${req.query.keyword}"`);
 
-  const date = new Date(); // set date to today
-  date.setDate(date.getDate() - 1); // change date to yesterday
+  const yesterday = new Date(); // set date to today
+  yesterday.setDate(yesterday.getDate() - 1); // change date to yesterday
 
   googleTrends.interestByRegion({
    geo: 'US',
    resolution: 'State',
    keyword: req.query.keyword,
-   startTime: date,
+   startTime: yesterday,
   }).then(
       (results) => res.send(formatInterestByRegionResults(results)),
       (errors) => res.send(errors)
@@ -61,13 +54,13 @@ app.get('/interest-by-region', (req, res) => {
 app.get('/related-queries', (req, res) => {
   console.log(`Received related-queries request for keyword "${req.query.keyword}"`);
 
-  const date = new Date(); // set date to today
-  date.setDate(date.getDate() - 1); // change date to yesterday
+  const yesterday = new Date(); // set date to today
+  yesterday.setDate(yesterday.getDate() - 1); // change date to yesterday
 
    googleTrends.relatedQueries({
      geo: 'US',
      keyword: req.query.keyword,
-     startTime: date,
+     startTime: yesterday,
    }).then(
         (results) => res.send(formatRelatedKeywordsResults(results)),
         (errors) => res.send(errors)
@@ -91,6 +84,5 @@ app.get('/index.html', function (req, res) {
 
 // Set up server
 var server = app.listen(process.env.PORT || 8081, () => {
-
    console.log("Google Trends Explorer App API listening at 8081");
 });

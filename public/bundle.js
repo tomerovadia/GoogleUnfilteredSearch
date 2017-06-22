@@ -16950,9 +16950,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 var CircleFunctions = __webpack_require__(2);
 var RelatedQueriesFunctions = __webpack_require__(3);
+var PanelFunctions = __webpack_require__(6);
 var ApiUtil = __webpack_require__(5);
 var Data = __webpack_require__(4);
 var d3 = __webpack_require__(0);
+
+// Initialization
 
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
@@ -16988,20 +16991,7 @@ var factors = { position: 'geography' };
 // Initial render
 CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 
-var fetchInterestByRegionAndUpdate = function fetchInterestByRegionAndUpdate(keyword) {
-  return ApiUtil.fetchInterestByRegion(keyword).then(function (results) {
-    console.log('interest-by-region', results);
-    var dataset = prepareDataset(results);
-    CircleFunctions.createCirclesSimulation(svg, dataset, factors);
-  });
-};
-
-var fetchRelatedQueriesAndUpdate = function fetchRelatedQueriesAndUpdate(keyword) {
-  return ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
-    console.log('related-queries', results);
-    RelatedQueriesFunctions.renderRelatedQueries(results);
-  });
-};
+// Functions modifying visuals
 
 var dimSVG = function dimSVG() {
   svg.append('g').attr('id', 'svg-modal-g').append('rect').attr('id', 'svg-modal');
@@ -17009,26 +16999,6 @@ var dimSVG = function dimSVG() {
 
 var undimSVG = function undimSVG() {
   svg.select('#svg-modal-g').remove();
-};
-
-var showRelatedQueries = function showRelatedQueries() {
-  d3.select('#related-queries-div').style('display', 'block');
-};
-
-var showRelatedQueriesLoadingGif = function showRelatedQueriesLoadingGif() {
-  d3.select('#related-queries-loading-gif-container').style('display', 'block');
-};
-
-var hideRelatedQueriesLoadingGif = function hideRelatedQueriesLoadingGif() {
-  d3.select('#related-queries-loading-gif-container').style('display', 'none');
-};
-
-var hideRelatedQueriesSpans = function hideRelatedQueriesSpans() {
-  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
-};
-
-var showRelatedQueriesSpans = function showRelatedQueriesSpans() {
-  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
 };
 
 var displayKeywordText = function displayKeywordText(keyword) {
@@ -17047,13 +17017,30 @@ var fetchNewDataAndUpdate = exports.fetchNewDataAndUpdate = function fetchNewDat
 
   fetchInterestByRegionAndUpdate(keyword).then(undimSVG);
 
-  showRelatedQueries();
-  showRelatedQueriesLoadingGif();
-  hideRelatedQueriesSpans();
+  RelatedQueriesFunctions.showRelatedQueries();
+  RelatedQueriesFunctions.showRelatedQueriesLoadingGif();
+  RelatedQueriesFunctions.hideRelatedQueriesSpans();
 
   fetchRelatedQueriesAndUpdate(keyword).then(function () {
-    hideRelatedQueriesLoadingGif();
-    showRelatedQueriesSpans();
+    RelatedQueriesFunctions.hideRelatedQueriesLoadingGif();
+    RelatedQueriesFunctions.showRelatedQueriesSpans();
+  });
+};
+
+// Helper functions for rendering new results
+
+var fetchInterestByRegionAndUpdate = function fetchInterestByRegionAndUpdate(keyword) {
+  return ApiUtil.fetchInterestByRegion(keyword).then(function (results) {
+    console.log('interest-by-region', results);
+    var dataset = prepareDataset(results);
+    CircleFunctions.createCirclesSimulation(svg, dataset, factors);
+  });
+};
+
+var fetchRelatedQueriesAndUpdate = function fetchRelatedQueriesAndUpdate(keyword) {
+  return ApiUtil.fetchRelatedQueries(keyword).then(function (results) {
+    console.log('related-queries', results);
+    RelatedQueriesFunctions.renderRelatedQueries(results);
   });
 };
 
@@ -17071,44 +17058,14 @@ d3.selectAll('.position-radio-input').on('change', function () {
   CircleFunctions.createCirclesSimulation(svg, dataset, factors);
 });
 
+// Execute Google search in new page
 d3.select('#keyword-text').on('click', function (d) {
   window.open('https://www.google.com/#q=' + this.innerHTML);
 });
 
-// Panel functionality
+// Panel Functionality
 
-function hideModal() {
-  $('#modal').css('display', 'none');
-}
-
-$('#explore-visualization-div').on('click', function (e) {
-  hideModal();
-});
-
-$('#modal-close-div').on('click', function (e) {
-  hideModal();
-});
-
-$('#modal').on('click', function (e) {
-  hideModal();
-});
-
-$('#modal-body').on('click', function (e) {
-  e.stopPropagation();
-});
-
-function hideConsiderBox() {
-  $('#consider-div').css('display', 'none');
-}
-
-$('.consider-span').on('click', function (e) {
-  var keyword = e.target.innerText;
-  fetchNewDataAndUpdate(keyword);
-});
-
-$('#consider-x').on('click', function (e) {
-  hideConsiderBox();
-});
+PanelFunctions.activatePanelListeners();
 
 /***/ }),
 /* 2 */
@@ -17219,9 +17176,9 @@ var renderCircles = function renderCircles(svg, data, factors) {
     selection.exit().transition().remove();
   };
 
-  exitCircles(selection.exit(), scales);
+  exitCircles();
   updateCircles();
-  enterCircles(selection.enter(), scales);
+  enterCircles();
 };
 
 var applyXYForces = function applyXYForces(simulation, xScale, yScale, xFactor, yFactor) {
@@ -17254,7 +17211,6 @@ exports.createCirclesSimulation = function (svg, data, factors) {
 
   var ticked = function ticked() {
     svg.selectAll('.circle-g').attr('transform', function (d) {
-      if (d === undefined) debugger;
       return "translate(" + d.x + "," + d.y + ")";
     });
   };
@@ -17323,6 +17279,26 @@ exports.renderRelatedQueries = function (data) {
   } else {
     d3.select('#no-related-queries-text').style('display', 'none');
   }
+};
+
+exports.showRelatedQueries = function () {
+  d3.select('#related-queries-div').style('display', 'block');
+};
+
+exports.showRelatedQueriesLoadingGif = function () {
+  d3.select('#related-queries-loading-gif-container').style('display', 'block');
+};
+
+exports.hideRelatedQueriesLoadingGif = function () {
+  d3.select('#related-queries-loading-gif-container').style('display', 'none');
+};
+
+exports.hideRelatedQueriesSpans = function () {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'none');
+};
+
+exports.showRelatedQueriesSpans = function () {
+  d3.select('#related-queries-div').selectAll('span').style('display', 'inline-block');
 };
 
 /***/ }),
@@ -17406,6 +17382,50 @@ exports.fetchRelatedQueries = function (keyword) {
   return $.ajax({
     method: 'get',
     url: '/related-queries?keyword=' + keyword
+  });
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MainFunctions = __webpack_require__(1);
+
+function hideModal() {
+  $('#modal').css('display', 'none');
+}
+
+function hideConsiderBox() {
+  $('#consider-div').css('display', 'none');
+}
+
+exports.activatePanelListeners = function () {
+  $('#explore-visualization-div').on('click', function (e) {
+    hideModal();
+  });
+
+  $('#modal-close-div').on('click', function (e) {
+    hideModal();
+  });
+
+  $('#modal').on('click', function (e) {
+    hideModal();
+  });
+
+  $('#modal-body').on('click', function (e) {
+    e.stopPropagation();
+  });
+
+  $('.consider-span').on('click', function (e) {
+    var keyword = e.target.innerText;
+    MainFunctions.fetchNewDataAndUpdate(keyword);
+  });
+
+  $('#consider-x').on('click', function (e) {
+    hideConsiderBox();
   });
 };
 
