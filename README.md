@@ -16,7 +16,7 @@ This application utilizes a [Google Trends API](https://www.npmjs.com/package/go
 
 The npm package provides four methods. The two methods used by this app are `interestByRegion()` and `relatedQueries()`.
 
-The app uses JavaScript to format the data and the D3 data visualization library to render it. It uses D3's enter/exit/update pattern to handle changes to circles (see my simple demo [here](https://github.com/tomerovadia/D3EnterExitUpdateDemo)).
+The app uses JavaScript to format the data and the D3 data visualization library to render it. It uses D3's enter/exit/update pattern to handle changes to circles and related queries (see my simple demo [here](https://github.com/tomerovadia/D3EnterExitUpdateDemo)).
 
 Because the API only runs in node, the app includes an Express Node.js server which receives requests from the app and routes them to the API.
 
@@ -24,8 +24,8 @@ Because the API only runs in node, the app includes an Express Node.js server wh
 
 The app's Node server makes two API endpoints available to the app:
 
-* GET /interest-by-region, and
-* GET /related-queries
+* `GET /interest-by-region, and`
+* `GET /related-queries`
 
 These paths correspond to the Google Trends API methods with the same names, which they call to retrieve data.
 
